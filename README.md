@@ -3,7 +3,7 @@
 --------------------------------
 
 <h2>Alumn Login<h2>
-<h3>REQUEST</h3>
+<h4>REQUEST</h4>
 <table class="wikitable">
 <tbody><tr>
 <th colspan="3">Request : JSON
@@ -33,7 +33,7 @@
 <td>Password del usuari
 </td></tr></tbody></table>
 <br>
-<h3>RESPONSE</h3>
+<h4>RESPONSE</h4>
 <table class="wikitable">
 <tbody><tr>
 <th colspan="3">Response
@@ -63,9 +63,9 @@
 <td>en caso de OK será el token, en caso de KO será el mensaje de error con el motivo
 </td></tr></tbody></table>
   
-  
+  <br><br>
   <h2>Admin Login<h2>
-<h3>REQUEST</h3>
+<h4>REQUEST</h4>
 <table class="wikitable">
 <tbody><tr>
 <th colspan="3">Request : JSON
@@ -95,7 +95,7 @@
 <td>Password del usuari
 </td></tr></tbody></table>
 <br>
-<h3>RESPONSE</h3>
+<h4>RESPONSE</h4>
 <table class="wikitable">
 <tbody><tr>
 <th colspan="3">Response
