@@ -1,7 +1,8 @@
 var MongoClient = require('mongodb').MongoClient;
-//var mongoUrl = "mongodb+srv://root:P%40ssw0rd@mongoexample.wf7zu.mongodb.net/mongoexample?retryWrites=true&w=majority"
 
-var mongoUrl = "mongodb+srv://Dani:Monsterhunter3@firstcluster.4htxv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+//example --> var mongoUrl = "mongodb+srv://<username>:<password>@mongoexample.wf7zu.mongodb.net/mongoexample?retryWrites=true&w=majority"
+var mongoUrl = process.env.MONGOURL
+
 var bodyParser = require('body-parser')
 
 var crypto = require('crypto');
@@ -29,9 +30,6 @@ app.use((req, res, next) => {
 
 
 app.post('/login/alumn', (req, res) => {
-
-	console.log(req.body)
-
 	var username = req.body.username;
 	var password = req.body.password;
 
@@ -74,7 +72,6 @@ function alumnLoginCallback(result, res, db, dbo)
 	var newValues = { $set: {sessionToken: token} };
 	dbo.collection(collectionAlum).updateOne(query, newValues, function(err, updResult){
 		if (err) throw err;
-		console.log("updated")
 		res.status(200).send({"status":"OK","statusData":token});
 		db.close();
 	});	
@@ -90,5 +87,5 @@ function randomString(length, chars) {
 
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`app running, listening at ${port}`)
 })
