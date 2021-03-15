@@ -1,0 +1,94 @@
+var MongoClient = require('mongodb').MongoClient;
+//var mongoUrl = "mongodb+srv://root:P%40ssw0rd@mongoexample.wf7zu.mongodb.net/mongoexample?retryWrites=true&w=majority"
+
+var mongoUrl = "mongodb+srv://Dani:Monsterhunter3@firstcluster.4htxv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+var bodyParser = require('body-parser')
+
+var crypto = require('crypto');
+
+const express = require('express')
+const app = express()
+const port = process.env.PORT || 3000
+
+const mongoDb = "MatriculationDB"
+const collectionAlum = "User"
+
+const alphaNumeric = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+app.use(bodyParser.json())
+
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+    next();
+});
+
+
+
+
+app.post('/login/alumn', (req, res) => {
+
+	console.log(req.body)
+
+	var username = req.body.username;
+	var password = req.body.password;
+
+	if (username != undefined && password != undefined)
+	{
+		checkAlumnLogin(username, password, res);
+	}
+	else
+	{
+		res.status(400).send({"status":"KO","statusData":"No se ha podido procesar la solicitud ya que no se informa de un usuario y contraseña"})
+	}	
+})
+
+function checkAlumnLogin(usr, pass, res)
+{
+	var queryResult;
+	MongoClient.connect(mongoUrl, function(err, db) {
+		if (err) throw err;
+		var dbo = db.db(mongoDb);
+		var passMd5 = crypto.createHash('md5').update(pass).digest("hex");
+		dbo.collection(collectionAlum).findOne({username : usr, password : passMd5}, function(err, result) {
+			if (err) throw err;
+			if (result != null)
+			{
+				alumnLoginCallback(result, res, db, dbo)
+			}
+			else
+			{
+				res.status(400).send({"status":"KO","statusData":"Los datos de login son incorrectos"})
+			}			
+			db.close();
+		});		
+	});
+}
+
+function alumnLoginCallback(result, res, db, dbo) 
+{
+	var token = randomString(128, alphaNumeric);
+	var query = {_id : result._id};
+	var newValues = { $set: {sessionToken: token} };
+	dbo.collection(collectionAlum).updateOne(query, newValues, function(err, updResult){
+		if (err) throw err;
+		console.log("updated")
+		res.status(200).send({"status":"OK","statusData":token});
+		db.close();
+	});	
+}
+
+
+
+function randomString(length, chars) {
+    var result = '';
+    for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+    return result;
+}	
+
+
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`)
+})
