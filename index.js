@@ -13,7 +13,7 @@ const app = express()
 const port = process.env.PORT || 3000
 
 const mongoDb = "MatriculationDB"
-const collectionAlum = "User"
+const collectionAlum = "Alumn"
 const collectionAdmin = "Admin"
 
 const jwt = require('jsonwebtoken')
