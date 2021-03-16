@@ -36,7 +36,7 @@
 <h4>RESPONSE</h4>
 <table class="wikitable">
 <tbody><tr>
-<th colspan="3">Response
+<th colspan="3">Response : JSON
 </th></tr>
 <tr>
 <th colspan="3">POST /login/alumn
@@ -98,7 +98,7 @@
 <h4>RESPONSE</h4>
 <table class="wikitable">
 <tbody><tr>
-<th colspan="3">Response
+<th colspan="3">Response : JSON
 </th></tr>
 <tr>
 <th colspan="3">POST /login/admin
