@@ -1,35 +1,50 @@
+// **********************************
+// *** DEPENDENCIES AND VARIABLES ***
+// **********************************
+
+// imports and dependencies
 var MongoClient = require('mongodb').MongoClient;
-
-//example --> var mongoUrl = "mongodb+srv://<username>:<password>@mongoexample.wf7zu.mongodb.net/mongoexample?retryWrites=true&w=majority"
-var mongoUrl = process.env.MONGOURL || "mongodb+srv://Dani:Monsterhunter3@firstcluster.4htxv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
-
-
+const jwt = require('jsonwebtoken')
 var bodyParser = require('body-parser')
-
 var crypto = require('crypto');
-
 const express = require('express')
+
+// Const and global vars
 const app = express()
 const port = process.env.PORT || 3000
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json())
 
 const mongoDb = "MatriculationDB"
 const collectionAlum = "Alumn"
 const collectionAdmin = "Admin"
 const collectionGrade = "FormativeDegree"
+//example of --> var mongoUrl = "mongodb+srv://<username>:<password>@mongoexample.wf7zu.mongodb.net/mongoexample?retryWrites=true&w=majority"
+var mongoUrl = process.env.MONGOURL
+const jwtKey = process.env.JWTKEY
 
-const jwt = require('jsonwebtoken')
-
-const alphaNumeric = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 
-const config = require('./configs/configs');
 
-// Enrutamiento para proteger endpoints con autenticacion por token
+// ****************
+// *** ROUTINGS ***
+// ****************
+
+// Enrutamiento para todas las peticiones que lleguen, prepara el header de la response para evitar errores
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+    next();
+});
+
+// Enrutamiento opcional, para proteger endpoints con autenticacion por token
 const protectedRoute = express.Router(); 
 protectedRoute.use((req, res, next) => {
     const token = req.headers['access-token']; 
     if (token) {
-      jwt.verify(token, app.get('jwtKey'), (err, decoded) => {      
+      jwt.verify(token, jwtKey, (err, decoded) => {      
         if (err) {
           res.status(400).send({error: "El token informado no es valido" });    
         } else {
@@ -42,7 +57,7 @@ protectedRoute.use((req, res, next) => {
     }
  });
 
-// Segundo enrutamiento para rutas protegidas con permisos de administrador
+// Segundo enrutamiento opcional, para rutas protegidas con permisos de administrador
 const checkAdminToken = express.Router(); 
 checkAdminToken.use((req, res, next) => {
     if (req.decoded.admin != undefined && req.decoded.admin == true)
@@ -57,25 +72,15 @@ checkAdminToken.use((req, res, next) => {
 
 
 
-app.set('jwtKey', config.jwtKey)
 
-app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(bodyParser.json())
-
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
-    next();
-});
-
+// **********************
+// *** ENDPOINTS LIST ***
+// **********************
 
 // ---------------------------------------------------------
 // post /login/alumn
 // ---------------------------------------------------------
-
 app.post('/login/alumn', (req, res) => {
 	var username = req.body.username;
 	var password = req.body.password;
@@ -114,7 +119,7 @@ function checkAlumnLogin(usr, pass, res)
 
 function alumnLoginCallback(result, res, db, dbo) 
 {
-	var token = jwt.sign({id : result._id, admin : false}, app.get('jwtKey'), {expiresIn: 1440});
+	var token = jwt.sign({id : result._id, admin : false}, jwtKey, {expiresIn: 1440});
 	var query = {_id : result._id};
 	var newValues = { $set: {sessionToken: token} };
 	dbo.collection(collectionAlum).updateOne(query, newValues, function(err, updResult){
@@ -168,7 +173,7 @@ function checkAdminLogin(usr, pass, res)
 
 function adminLoginCallback(result, res, db, dbo) 
 {
-	var token = jwt.sign({id : result._id, admin : true}, app.get('jwtKey'), {expiresIn: 1440});
+	var token = jwt.sign({id : result._id, admin : true}, jwtKey, {expiresIn: 1440});
 	var query = {_id : result._id};
 	var newValues = { $set: {sessionToken: token} };
 	dbo.collection(collectionAdmin).updateOne(query, newValues, function(err, updResult){
@@ -187,10 +192,18 @@ function adminLoginCallback(result, res, db, dbo)
 app.get('/get/allGrades', protectedRoute, checkAdminToken, (req, res) => {
 
 	MongoClient.connect(mongoUrl, function(err, db) {
-		if (err) throw err;
+		if (err) {
+			res.status(400).send({"error": "Error inesperado en el servidor" }); 
+			console.log("ERROR MONGO: " + err); 
+			return;
+		} 
 		var dbo = db.db(mongoDb);
 		dbo.collection(collectionGrade).find({}).project({careerCode : 1, careerName : 1}).toArray(function(err, result) {
-			if (err) throw err;						
+			if (err) {
+				res.status(400).send({"error": "Error inesperado en el servidor" });
+				console.log("ERROR MONGO: " + err);
+				return;
+			}						
 			res.status(200).send(result);
 			db.close();
 		});
@@ -203,26 +216,34 @@ app.get('/get/allGrades', protectedRoute, checkAdminToken, (req, res) => {
 
 
 // ---------------------------------------------------------
-// get /get/allGrades
+// get /get/grade --> example: /get/grade?careerCode="CFMP++++0123"
 // ---------------------------------------------------------
-app.get('/get/grade', (req, res) => {
+app.get('/get/grade', protectedRoute, checkAdminToken, (req, res) => {
 	var qCareerCode = req.query.careerCode
 	if (qCareerCode == undefined){
-		res.status(400).send("No se ha informado de un careerCode en la query")
+		res.status(400).send({"error":"No se ha informado de un careerCode en la query"})
 	}
 
 	MongoClient.connect(mongoUrl, function(err, db) {
-		if (err) throw err;
+		if (err) {
+			res.status(400).send({"error": "Error inesperado en el servidor" });
+			console.log("ERROR MONGO: " + err);
+			return;
+		}	
 		var dbo = db.db(mongoDb);
 		dbo.collection(collectionGrade).findOne({careerCode : qCareerCode}, function(err, result) {
-			if (err) throw err;		
+			if (err) {
+				res.status(400).send({"error": "Error inesperado en el servidor" });
+				console.log("ERROR MONGO: " + err);
+				return;
+			}		
 			if (result != null)
 			{
 				res.status(200).send(result);
 			}	
 			else
 			{
-				res.status(400).send("No se ha encontrado ningun ciclo con ese careerCode");
+				res.status(400).send({"error":"No se ha encontrado ningun ciclo con ese careerCode"});
 			}			
 			
 			db.close();
@@ -231,6 +252,41 @@ app.get('/get/grade', (req, res) => {
 	});
 	
 })
+
+
+
+
+// ---------------------------------------------------------
+// post /insert/grade
+// ---------------------------------------------------------
+app.post('/insert/grade', protectedRoute, checkAdminToken, (req, res) => {
+	var grade = req.body.grade;
+	if (grade != undefined)
+	{
+		MongoClient.connect(mongoUrl, function(err, db) {
+			if (err) {
+				res.status(400).send({"error": "Error inesperado en el servidor" });
+				console.log("ERROR MONGO: " + err);
+				return;
+			}	
+			var dbo = db.db(mongoDb);			
+			dbo.collection(collectionGrade).insertOne(grade, function(err, result) {
+				if (err) {
+					res.status(400).send({"error": "Error inesperado en el servidor" });
+					console.log("ERROR MONGO: " + err);
+					return;
+				}
+				res.status(200).send({"insertCount" : "1"})
+				db.close();
+			});
+		});
+	}
+	else
+	{
+		res.status(400).send({"error" : "No se ha informado del campo grade"})
+	}	
+})
+
 
 
 
