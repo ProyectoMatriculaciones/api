@@ -178,7 +178,7 @@
 <th colspan="3">Response : JSON
 </th></tr>
 <tr>
-<th colspan="3">POST /insert/grade
+<th colspan="3">GET /get/allGrades
 </th></tr>
 <tr>
 <th>Param
@@ -240,7 +240,7 @@
 <th colspan="3">Response : JSON
 </th></tr>
 <tr>
-<th colspan="3">POST /insert/grade
+<th colspan="3">GET /get/grade
 </th></tr>
 <tr>
 <th>Param
