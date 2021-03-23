@@ -124,3 +124,91 @@
 </td>
 <td>en caso de OK será el token, en caso de KO será el mensaje de error con el motivo
 </td></tr></tbody></table>
+  <br><br>
+  <h2> **CICLES** </h2>
+   <h2>Get all grades<h2>
+  <h4> REQUEST <h4>
+  <table class="wikitable">
+<tbody><tr>
+<th colspan="3">Request
+</th></tr>
+<tr>
+<th colspan="3">GET /get/allGrades
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+</tbody></table>
+  <h4>RESPONSE (Array de objetos)</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON (Array)
+</th></tr>
+<tr>
+<th colspan="3">GET /get/allGrades
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>careerCode
+</td>
+<td>text
+</td>
+<td>Codigo del ciclo
+</td></tr>
+<tr>
+<td>careerName
+</td>
+<td>text
+</td>
+<td>Nombre del ciclo
+</td></tr></tbody></table>
+  <br>
+    <h2>Get Grade</h2>
+    <h4>REQUEST (url query)<h4>
+    <table class="wikitable">
+<tbody><tr>
+<th colspan="3">Request (url query)
+</th></tr>
+<tr>
+<th colspan="3">GET /get/grade <br> example: /get/grade?careerCode="CFMP++++0123"
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>careerCode
+</td>
+<td>text
+</td>
+<td>Codigo del ciclo
+</td></tr>
+</tbody></table>
+<h4>RESPONSE<h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">GET /get/grade
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tbody></table>
