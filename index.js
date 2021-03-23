@@ -99,7 +99,7 @@ function checkAlumnLogin(usr, pass, res)
 {
 	var queryResult;
 	MongoClient.connect(mongoUrl, function(err, db) {
-		if (err) throw err;
+		if (err) throw err;	
 		var dbo = db.db(mongoDb);
 		//var passMd5 = crypto.createHash('md5').update(pass).digest("hex");
 		dbo.collection(collectionAlum).findOne({username : usr, password : pass}, function(err, result) {
@@ -155,8 +155,8 @@ function checkAdminLogin(usr, pass, res)
 	MongoClient.connect(mongoUrl, function(err, db) {
 		if (err) throw err;
 		var dbo = db.db(mongoDb);
-		var passMd5 = crypto.createHash('md5').update(pass).digest("hex");
-		dbo.collection(collectionAdmin).findOne({username : usr, password : passMd5}, function(err, result) {
+		//var passMd5 = crypto.createHash('md5').update(pass).digest("hex");
+		dbo.collection(collectionAdmin).findOne({username : usr, password : pass}, function(err, result) {
 			if (err) throw err;
 			if (result != null)
 			{
