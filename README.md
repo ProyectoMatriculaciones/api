@@ -233,7 +233,7 @@
 <th>Values
 </th>
 <th>Description
-</th></tbody></table>
+  </th><tr><td></td><td></td><td>Se devuelve un objeto JSON de grado entero, igual que el de base de datos. <a href="jsonGrade">Ejemplo</a></td></tr></tbody></table>
 <h4> RESPONSE STATUS 400</h4>
 <table class="wikitable">
 <tbody><tr>
@@ -465,3 +465,67 @@
 </td>
 <td>Motivo del error
 </td></tbody></table>
+<br><br><br><h1>JSON EXAMPLES</h1>
+<br><h2>Grade JSON<h2>
+<p id="jsonGrade">
+  {
+  "_id": {
+    "$oid": "6059fb701230ad00041e7d8d"
+  },
+  "curricularAdaptationCode": "00",
+  "arrayMO": [
+    {
+      "MOCode": "AR10001",
+      "arrayUF": [
+        {
+          "FCTIndicator": "N",
+          "UFDuration": "21",
+          "languageIndicator": "N",
+          "UFName": "UF1. Clima i microclima",
+          "projectIndicator": "N",
+          "UFCode": "AR1000101",
+          "synthesisIndicator": "N"
+        },
+        {
+          "FCTIndicator": "N",
+          "UFDuration": "63",
+          "languageIndicator": "N",
+          "UFName": "UF2. Aigua, sòl i fertilització. Ecosistemes",
+          "projectIndicator": "N",
+          "UFCode": "AR1000102",
+          "synthesisIndicator": "N"
+        },
+        {
+          "FCTIndicator": "N",
+          "UFDuration": "18",
+          "languageIndicator": "N",
+          "UFName": "UF3. Topografia",
+          "projectIndicator": "N",
+          "UFCode": "AR1000103",
+          "synthesisIndicator": "N"
+        },
+        {
+          "FCTIndicator": "N",
+          "UFDuration": "63",
+          "languageIndicator": "N",
+          "UFName": "UF4. Botànica",
+          "projectIndicator": "N",
+          "UFCode": "AR1000104",
+          "synthesisIndicator": "N"
+        }
+      ],
+      "MOFinishDate": "",
+      "MOMaxDuration": "198",
+      "MOName": "MP1. Fonaments agronòmics",
+      "MOMinDuration": "0",
+      "MOSartDate": "17/02/11"
+    }
+  ],
+  "careerStartDate": "25/01/11",
+  "careerFinishDate": "",
+  "careerCode": "CFPM    AR10",
+  "careerName": "Producció agropecuària",
+  "careerHours": "2000"
+}
+  </p>
+  
