@@ -143,7 +143,7 @@
 <th>Description
 </th></tr>
 </tbody></table>
-  <h4>RESPONSE (Array de objetos)</h4>
+  <h4>RESPONSE STATUS 200 (Array de objetos)</h4>
 <table class="wikitable">
 <tbody><tr>
 <th colspan="3">Response : JSON (Array)
@@ -172,6 +172,28 @@
 </td>
 <td>Nombre del ciclo
 </td></tr></tbody></table>
+<h4> RESPONSE STATUS 400</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /insert/grade
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>error
+</td>
+<td>text
+</td>
+<td>Motivo del error
+</td></tbody></table>
   <br>
     <h2>Get Grade</h2>
     <h4>REQUEST (url query)</h4>
@@ -419,7 +441,7 @@
 </td>
 <td>integer
 </td>
-<td>Numero de updates
+<td>Numero de deletes
   </td></tr></tbody></table>
 <h4> RESPONSE STATUS 400</h4>
 <table class="wikitable">
