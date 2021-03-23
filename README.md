@@ -296,3 +296,150 @@
 </td>
 <td>Motivo del error
 </td></tbody></table>
+
+<br><br><br>
+<h1> NO IMPLEMENTED </h1>
+<h2> UPDATE </h2>
+  <h4> REQUEST </h4>
+  <table class="wikitable">
+<tbody><tr>
+<th colspan="3">Request : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /update/grade
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th><tr>
+<td>careerCode
+</td>
+<td>text
+</td>
+<td>Codigo del ciclo que se quiere updatear
+  </td></tr>
+  <tr>
+<td>grade
+</td>
+<td>JSON Object
+</td>
+<td>Un objeto JSON con todos aquellos campos y valores que se quieran actualizar
+  </td></tr>
+</tbody></table>
+<h4> RESPONSE STATUS 200</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /update/grade
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>updateCount
+</td>
+<td>integer
+</td>
+<td>Numero de updates
+  </td></tr></tbody></table>
+<h4> RESPONSE STATUS 400</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /update/grade
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>error
+</td>
+<td>text
+</td>
+<td>Motivo del error
+</td></tbody></table>
+
+
+<br>
+<h2> DELETE </h2>
+  <h4> REQUEST </h4>
+  <table class="wikitable">
+<tbody><tr>
+<th colspan="3">Request : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /delete/grade
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th><tr>
+<td>careerCodes
+</td>
+<td>JSON Array
+</td>
+<td>Codigo/s de el/los ciclo/s que se quiera borrar
+  </td></tr>
+</tbody></table>
+<h4> RESPONSE STATUS 200</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /delete/grade
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>deleteCount
+</td>
+<td>integer
+</td>
+<td>Numero de updates
+  </td></tr></tbody></table>
+<h4> RESPONSE STATUS 400</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /delete/grade
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>error
+</td>
+<td>text
+</td>
+<td>Motivo del error
+</td></tbody></table>
