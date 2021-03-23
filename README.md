@@ -233,7 +233,7 @@
 <th>Values
 </th>
 <th>Description
-  </th><tr><td></td><td></td><td>Se devuelve un objeto JSON de grado entero, igual que el de base de datos. <a href="jsonGrade">Ejemplo</a></td></tr></tbody></table>
+  </th><tr><td></td><td></td><td>Se devuelve un objeto JSON de grado entero, igual que el de base de datos. <a href="#jsonGrade">Ejemplo</a></td></tr></tbody></table>
 <h4> RESPONSE STATUS 400</h4>
 <table class="wikitable">
 <tbody><tr>
@@ -272,7 +272,7 @@
 <th>Values
 </th>
 <th>Description
-</th></tr>
+</th><tr><td></td><td></td><td>Se debe informar de un objeto JSON de grado entero, igual que el de base de datos. <a href="#jsonGrade">Ejemplo</a></td></tr></tr>
 </tbody></table>
 <h4> RESPONSE STATUS 200</h4>
 <table class="wikitable">
@@ -467,7 +467,7 @@
 </td></tbody></table>
 <br><br><br><h1>JSON EXAMPLES</h1>
 <br><h2>Grade JSON<h2>
-<p id="jsonGrade">
+<pre id="jsonGrade">
   {
   "_id": {
     "$oid": "6059fb701230ad00041e7d8d"
@@ -527,5 +527,5 @@
   "careerName": "Producció agropecuària",
   "careerHours": "2000"
 }
-  </p>
+  </pre>
   
