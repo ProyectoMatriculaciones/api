@@ -261,6 +261,7 @@ app.get('/get/grade', protectedRoute, checkAdminToken, (req, res) => {
 // ---------------------------------------------------------
 app.post('/insert/grade', protectedRoute, checkAdminToken, (req, res) => {
 	var grade = req.body.grade;
+	var overwrite = req.body.overwrite;
 	if (grade != undefined)
 	{
 		MongoClient.connect(mongoUrl, function(err, db) {
@@ -270,32 +271,48 @@ app.post('/insert/grade', protectedRoute, checkAdminToken, (req, res) => {
 				return;
 			}	
 			var dbo = db.db(mongoDb);
+			
 			// Check not exists a grade with same careerCode before insert
-			dbo.collection(collectionGrade).findOne({careerCode : grade.careerCode}, function(err, result) {
-				if (err) {
-					res.status(400).send({"error": "Error inesperado en el servidor" });
-					console.log("ERROR MONGO: " + err);
-					return;
-				}	
-				if (result != null)
-				{
-					res.status(400).send({"error": "Ya existe un ciclo con este codigo" });
-				}
-				else
-				{
-					dbo.collection(collectionGrade).insertOne(grade, function(err, result) {
-						if (err) {
-							res.status(400).send({"error": "Error inesperado en el servidor" });
-							console.log("ERROR MONGO: " + err);
-							return;
-						}
-						res.status(200).send({"insertCount" : "1"})
-						db.close();
-					});
-				}			
-				db.close();
-			});	
-
+			if (overwrite == "false")
+			{
+				dbo.collection(collectionGrade).findOne({careerCode : grade.careerCode}, function(err, result) {
+					if (err) {
+						res.status(400).send({"error": "Error inesperado en el servidor" });
+						console.log("ERROR MONGO: " + err);
+						return;
+					}	
+					if (result != null)
+					{
+						res.status(400).send({"error": "Ya existe un ciclo con este codigo" });
+					}
+					else
+					{
+						dbo.collection(collectionGrade).insertOne(grade, function(err, result) {
+							if (err) {
+								res.status(400).send({"error": "Error inesperado en el servidor" });
+								console.log("ERROR MONGO: " + err);
+								return;
+							}
+							res.status(200).send({"insertCount" : "1"})
+							db.close();
+						});
+					}			
+					db.close();
+				});	
+			}
+			else
+			{
+				dbo.collection(collectionGrade).insertOne(grade, function(err, result) {
+					if (err) {
+						res.status(400).send({"error": "Error inesperado en el servidor" });
+						console.log("ERROR MONGO: " + err);
+						return;
+					}
+					res.status(200).send({"insertCount" : "1"})
+					db.close();
+				});
+			}
+			
 			
 		});
 	}
