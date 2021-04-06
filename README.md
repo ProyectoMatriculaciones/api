@@ -272,7 +272,8 @@
 <th>Values
 </th>
 <th>Description
-</th><tr><td></td><td></td><td>Se debe informar de un objeto JSON de grado entero, igual que el de base de datos. <a href="#jsonGrade">Ejemplo</a></td></tr></tr>
+</th><tr><td>grade</td><td>JSON Object</td><td>Se debe informar de un objeto JSON de grado entero, igual que el de base de datos. <a href="#jsonGrade">Ejemplo</a></td></tr>
+  <tr><td>overwrite</td><td>text</td><td>Permite sobreescribir en caso de que ya exista un grado con el mismo codigo. Debe ser "true" o "false" en texto plano</td></tr></tr>
 </tbody></table>
 <h4> RESPONSE STATUS 200</h4>
 <table class="wikitable">
