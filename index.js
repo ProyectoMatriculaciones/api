@@ -19,6 +19,7 @@ const mongoDb = "MatriculationDB"
 const collectionAlum = "Alumn"
 const collectionAdmin = "Admin"
 const collectionGrade = "FormativeDegree"
+const collectionDocumentsProfile = "DocumentsProfile"
 //example of --> var mongoUrl = "mongodb+srv://<username>:<password>@mongoexample.wf7zu.mongodb.net/mongoexample?retryWrites=true&w=majority"
 var mongoUrl = process.env.MONGOURL
 const jwtKey = process.env.JWTKEY
@@ -102,7 +103,7 @@ function checkAlumnLogin(usr, pass, res)
 		if (err) throw err;	
 		var dbo = db.db(mongoDb);
 		var passMd5 = crypto.createHash('md5').update(pass).digest("hex");
-		dbo.collection(collectionAlum).findOne({username : usr, password : passMd5}, function(err, result) {
+		dbo.collection(collectionAlum).findOne({email : usr, password : passMd5}, function(err, result) {
 			if (err) throw err;
 			if (result != null)
 			{
@@ -328,6 +329,308 @@ app.post('/insert/grade', protectedRoute, checkAdminToken, (req, res) => {
 
 
 
+// ---------------------------------------------------------
+// get /get/allAlumns  --> example: /get/allAlumns?careerCode="CFMP++++0123"
+// ---------------------------------------------------------
+app.get('/get/allAlumns', protectedRoute, checkAdminToken, (req, res) => {
+	
+	var qCareerCode = req.query.careerCode
+	if (qCareerCode == undefined){
+		res.status(400).send({"error":"No se ha informado de un careerCode en la query"})
+	}
+	else
+	{
+		MongoClient.connect(mongoUrl, function(err, db) {
+			if (err) {
+				res.status(400).send({"error": "Error inesperado en el servidor" }); 
+				console.log("ERROR MONGO: " + err); 
+				return;
+			} 
+			var dbo = db.db(mongoDb);
+			dbo.collection(collectionAlum).find({termCode : qCareerCode}).project({name : 1, firstSurname : 1, secondSurname : 1, DNI : 1}).toArray(function(err, result) {
+				if (err) {
+					res.status(400).send({"error": "Error inesperado en el servidor" });
+					console.log("ERROR MONGO: " + err);
+					return;
+				}						
+				res.status(200).send(result);
+				db.close();
+			});
+			
+		});
+	}	
+})
+
+
+
+
+// ---------------------------------------------------------
+// get /get/alumn --> example: /get/alumn?username="user"
+// ---------------------------------------------------------
+app.get('/get/alumn', protectedRoute, (req, res) => {
+	var qUsername = req.query.username
+	if (qUsername == undefined){
+		res.status(400).send({"error":"No se ha informado de un username en la query"})
+	}
+
+	MongoClient.connect(mongoUrl, function(err, db) {
+		if (err) {
+			res.status(400).send({"error": "Error inesperado en el servidor" });
+			console.log("ERROR MONGO: " + err);
+			return;
+		}	
+		var dbo = db.db(mongoDb);
+		dbo.collection(collectionAlum).findOne({email : qUsername}, function(err, result) {
+			if (err) {
+				res.status(400).send({"error": "Error inesperado en el servidor" });
+				console.log("ERROR MONGO: " + err);
+				return;
+			}		
+
+			if (result != null)
+			{
+				res.status(200).send(result);
+			}	
+			else
+			{
+				res.status(400).send({"error":"No se ha encontrado ningun alumno"});
+			}			
+			
+			db.close();
+		});
+		
+	});
+	
+})
+
+
+
+
+// ---------------------------------------------------------
+// post /insert/alumn
+// ---------------------------------------------------------
+app.post('/insert/alumn', protectedRoute, checkAdminToken, (req, res) => {
+	var alumn = req.body.alumn;
+	if (alumn != undefined)
+	{
+		MongoClient.connect(mongoUrl, function(err, db) {
+			if (err) {
+				res.status(400).send({"error": "Error inesperado en el servidor" });
+				console.log("ERROR MONGO: " + err);
+				return;
+			}	
+			var dbo = db.db(mongoDb);
+			
+			// Check not exists a alumn with same email or dni before insert
+			
+			dbo.collection(collectionAlum).findOne({$or:[{email : alumn.email}, {DNI : alumn.DNI}]}, function(err, result) {
+				if (err) {
+					res.status(400).send({"error": "Error inesperado en el servidor" });
+					console.log("ERROR MONGO: " + err);
+					return;
+				}	
+				if (result != null)
+				{
+					res.status(400).send({"error": "Ya existe un alumno" });
+				}
+				else
+				{
+					dbo.collection(collectionAlum).insertOne(alumn, function(err, result) {
+						if (err) {
+							res.status(400).send({"error": "Error inesperado en el servidor" });
+							console.log("ERROR MONGO: " + err);
+							return;
+						}
+						res.status(200).send({"insertCount" : "1"})
+						db.close();
+					});
+				}			
+				db.close();
+			});				
+		});
+	}
+	else
+	{
+		res.status(400).send({"error" : "No se ha informado del campo alumn"})
+	}	
+})
+
+
+
+// ---------------------------------------------------------
+// post /update/matriculatedUfs
+// ---------------------------------------------------------
+app.post('/update/matriculatedUfs', protectedRoute, (req, res) => {
+	var qMatriculatedUfs = req.body.matriculatedUfs;
+	var qEmail = req.body.email;
+	if (qMatriculatedUfs != undefined && qEmail != undefined)
+	{
+		MongoClient.connect(mongoUrl, function(err, db) {
+			if (err) {
+				res.status(400).send({"error": "Error inesperado en el servidor" });
+				console.log("ERROR MONGO: " + err);
+				return;
+			}	
+			var dbo = db.db(mongoDb);			
+			var query = {email : qEmail};
+			var newValues = { $set: {matriculatedUfs: qMatriculatedUfs} };
+			dbo.collection(collectionAlumn).updateOne(query, newValues, function(err, updResult){
+				if (err) {
+					res.status(400).send({"error": "Error inesperado en el servidor" });
+					console.log("ERROR MONGO: " + err);
+					return;
+				}	
+				res.status(200).send({"updateCount":"1"});
+				db.close();
+			});	
+		});
+	}
+	else
+	{
+		res.status(400).send({"error" : "No se ha informado del campo matriculatedUfs o del campo qEmail"})
+	}	
+})
+
+
+
+
+// ---------------------------------------------------------
+// post /insert/documentsProfile
+// ---------------------------------------------------------
+app.post('/insert/documentsProfile', protectedRoute, checkAdminToken, (req, res) => {
+	var documentsProfile = req.body.documentsProfile;
+	var overwrite = req.body.overwrite;
+	if (documentsProfile != undefined && overwrite != undefined)
+	{
+		MongoClient.connect(mongoUrl, function(err, db) {
+			if (err) {
+				res.status(400).send({"error": "Error inesperado en el servidor" });
+				console.log("ERROR MONGO: " + err);
+				return;
+			}	
+			var dbo = db.db(mongoDb);
+			
+			// Check not exists a alumn with same email or dni before insert
+			
+			dbo.collection(collectionDocumentsProfile).findOne({name : documentsProfile.name}, function(err, result) {
+				if (err) {
+					res.status(400).send({"error": "Error inesperado en el servidor" });
+					console.log("ERROR MONGO: " + err);
+					return;
+				}	
+				if (overwrite == "false" && result != null)
+				{
+					res.status(400).send({"error": "Ya existe un perfil de documentos con el nombre " + documentsProfile.name});
+				}
+				else
+				{
+					if (overwrite == "true" && result != null)
+					{
+						var query = {name : documentsProfile.name};
+						var newValues = { $set: {arrayDoc: documentsProfile.arrayDoc, 
+												 description : documentsProfile.description} };
+						dbo.collection(collectionDocumentsProfile).updateOne(query, newValues, function(err, updResult){
+							if (err) {
+								res.status(400).send({"error": "Error inesperado en el servidor" });
+								console.log("ERROR MONGO: " + err);
+								return;
+							}	
+							res.status(200).send({"updateCount":"1"});
+							db.close();
+						});	
+					}
+					else
+					{
+						dbo.collection(collectionDocumentsProfile).insertOne(documentsProfile, function(err, result) {
+							if (err) {
+								res.status(400).send({"error": "Error inesperado en el servidor" });
+								console.log("ERROR MONGO: " + err);
+								return;
+							}
+							res.status(200).send({"insertCount" : "1"})
+							db.close();
+						});
+					}
+					
+				}			
+				db.close();
+			});				
+		});
+	}
+	else
+	{
+		res.status(400).send({"error" : "No se ha informado del campo alumn"})
+	}	
+})
+
+
+
+// ---------------------------------------------------------
+// get /get/allDocumentsProfile
+// ---------------------------------------------------------
+app.get('/get/allDocumentsProfile', protectedRoute, (req, res) => {
+
+	MongoClient.connect(mongoUrl, function(err, db) {
+		if (err) {
+			res.status(400).send({"error": "Error inesperado en el servidor" }); 
+			console.log("ERROR MONGO: " + err); 
+			return;
+		} 
+		var dbo = db.db(mongoDb);
+		dbo.collection(collectionDocumentsProfile).find({}).toArray(function(err, result) {
+			if (err) {
+				res.status(400).send({"error": "Error inesperado en el servidor" });
+				console.log("ERROR MONGO: " + err);
+				return;
+			}						
+			res.status(200).send(result);
+			db.close();
+		});
+		
+	});
+	
+})
+
+
+
+
+// ---------------------------------------------------------
+// get /get/documentsProfile' --> example: /get/documentsProfile?name="nombre"
+// ---------------------------------------------------------
+app.get('/get/documentsProfile', protectedRoute, (req, res) => {
+	var qName = req.query.name
+	if (qName == undefined){
+		res.status(400).send({"error":"No se ha informado de un name en la query"})
+	}
+	else
+	{
+		MongoClient.connect(mongoUrl, function(err, db) {
+			if (err) {
+				res.status(400).send({"error": "Error inesperado en el servidor" });
+				console.log("ERROR MONGO: " + err);
+				return;
+			}	
+			var dbo = db.db(mongoDb);
+			dbo.collection(collectionDocumentsProfile).findOne({name : qName}, function(err, result) {
+				if (err) {
+					res.status(400).send({"error": "Error inesperado en el servidor" });
+					console.log("ERROR MONGO: " + err);
+					return;
+				}		
+				if (result != null)
+				{
+					res.status(200).send(result);
+				}	
+				else
+				{
+					res.status(400).send({"error":"No se ha encontrado ningun documentsProfile con ese name"});
+				}			
+				
+				db.close();
+			});			
+		});
+	}	
+})
 
 
 
