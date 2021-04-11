@@ -219,7 +219,7 @@ app.get('/get/allGrades', protectedRoute, checkAdminToken, (req, res) => {
 // ---------------------------------------------------------
 // get /get/grade --> example: /get/grade?careerCode="CFMP++++0123"
 // ---------------------------------------------------------
-app.get('/get/grade', protectedRoute, checkAdminToken, (req, res) => {
+app.get('/get/grade', protectedRoute, (req, res) => {
 	var qCareerCode = req.query.careerCode
 	if (qCareerCode == undefined){
 		res.status(400).send({"error":"No se ha informado de un careerCode en la query"})
@@ -535,7 +535,7 @@ app.post('/insert/documentsProfile', protectedRoute, checkAdminToken, (req, res)
 								console.log("ERROR MONGO: " + err);
 								return;
 							}	
-							res.status(200).send({"updateCount":"1"});
+							res.status(200).send({"insertCount":"1"});
 							db.close();
 						});	
 					}
