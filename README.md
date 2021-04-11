@@ -63,6 +63,8 @@
 <td>en caso de OK será el token, en caso de KO será el mensaje de error con el motivo
 </td></tr></tbody></table>
   
+  
+  
   <br><br>
   <h2>Admin Login</h2>
 <h4>REQUEST</h4>
@@ -124,8 +126,15 @@
 </td>
 <td>en caso de OK será el token, en caso de KO será el mensaje de error con el motivo
 </td></tr></tbody></table>
+
+
+
+
+
   <br><br>
+  <!-- CICLES -->
   <h2> **CICLES** </h2>
+  <!-- /get/allGrades -->
    <h2>Get all grades</h2>
   <h4> REQUEST </h4>
   <table class="wikitable">
@@ -194,6 +203,10 @@
 </td>
 <td>Motivo del error
 </td></tbody></table>
+
+
+
+<!-- /get/grade -->
   <br>
     <h2>Get Grade</h2>
     <h4>REQUEST (url query)</h4>
@@ -256,6 +269,11 @@
 </td>
 <td>Motivo del error
 </td></tbody></table>
+
+
+
+
+<!-- /insert/grade -->
 <br><br>
   <h2>Insert grade</h2>
   <h4> REQUEST </h4>
@@ -320,6 +338,437 @@
 <td>Motivo del error
 </td></tbody></table>
 
+
+
+
+
+
+<!-- PERFILES DE DOCUMENTOS -->
+<h2> **PERFILES DE DOCUMENTOS** </h2>
+<!-- /get/allDocumentsProfile -->
+<h2>Get all documents profile</h2>
+  <h4> REQUEST </h4>
+  <table class="wikitable">
+<tbody><tr>
+<th colspan="3">Request
+</th></tr>
+<tr>
+<th colspan="3">GET /get/allDocumentsProfile
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+</tbody></table>
+  <h4>RESPONSE STATUS 200 (Array de objetos)</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON (Array)
+</th></tr>
+<tr>
+<th colspan="3">GET /get/allDocumentsProfile
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>name
+</td>
+<td>text
+</td>
+<td>Nombre del perfil
+</td></tr>
+<tr>
+<td>description
+</td>
+<td>text
+</td>
+<td>Descripcion del perfil
+</td></tr>
+  <tr>
+<td>arrayDoc
+</td>
+<td>JSONArray
+</td>
+<td>Lista de documentos, Array de objetos JSON, con un unico campo {"documentName":"nombre"}
+</td></tr></tbody></table>
+<h4> RESPONSE STATUS 400</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">GET /get/allDocumentsProfile
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>error
+</td>
+<td>text
+</td>
+<td>Motivo del error
+</td></tbody></table>
+
+
+
+<!-- /get/documentProfile -->
+<br>
+    <h2>Get documentProfile</h2>
+    <h4>REQUEST (url query)</h4>
+    <table class="wikitable">
+<tbody><tr>
+<th colspan="3">Request (url query)
+</th></tr>
+<tr>
+<th colspan="3">GET /get/documentProfile <br> example: /get/documentProfile?name="nombre"
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>name
+</td>
+<td>text
+</td>
+<td>Nombre del perfil
+</td></tr>
+</tbody></table>
+<h4>RESPONSE STATUS 200</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">GET /get/documentProfile
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+  </th><tr><td></td><td></td><td>Se devuelve un objeto JSON de perfil de documento entero, igual que el de base de datos. <a href="#jsonProfile">Ejemplo</a></td></tr></tbody></table>
+<h4> RESPONSE STATUS 400</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">GET /get/documentProfile
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>error
+</td>
+<td>text
+</td>
+<td>Motivo del error
+</td></tbody></table>
+
+
+<!-- /insert/documentsProfile -->
+<br><br>
+  <h2>Insert documentsProfile</h2>
+  <h4> REQUEST </h4>
+  <table class="wikitable">
+<tbody><tr>
+<th colspan="3">Request : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /insert/documentsProfile
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th><tr><td>documentsProfile</td><td>JSON Object</td><td>Se debe informar de un objeto JSON de perfil entero, igual que el de base de datos. <a href="#jsonProfile">Ejemplo</a></td></tr>
+  <tr><td>overwrite</td><td>text</td><td>Permite sobreescribir en caso de que ya exista un perfil con el mismo nombre. Debe ser "true" o "false" en texto plano</td></tr></tr>
+</tbody></table>
+<h4> RESPONSE STATUS 200</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /insert/documentsProfile
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>insertCount
+</td>
+<td>integer
+</td>
+<td>Numero de inserciones
+</td></tbody></table>
+<h4> RESPONSE STATUS 400</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /insert/documentsProfile
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>error
+</td>
+<td>text
+</td>
+<td>Motivo del error
+</td></tbody></table>
+
+
+
+
+
+
+<!-- ALUMNOS -->
+<h2> **ALUMNOS** </h2>
+
+<!-- /get/allAlumns -->
+<h2>Get all Alumns</h2>
+  <h4> REQUEST </h4>
+  <table class="wikitable">
+<tbody><tr>
+<th colspan="3">Request (url query)
+</th></tr>
+<tr>
+<th colspan="3">GET /get/allAlumns <br> example: /get/allAlumns?careerCode="CFMP++++0123"
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+</tbody></table>
+  <h4>RESPONSE STATUS 200 (Array de objetos)</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON (Array)
+</th></tr>
+<tr>
+<th colspan="3">GET /get/allAlumns
+</th></tr>
+<tr>
+<th>Param</th><th>Values</th><th>Description</th></tr>
+<tr>
+<td>name</td><td>text</td><td>Nombre del alumno</td>
+ </tr>
+<tr>
+<td>firstSurname</td><td>text</td><td>Apellido del alumno</td>
+ </tr>
+  <tr>
+<td>secondSurname</td><td>text</td><td>Segundo apellido del alumno</td>
+ </tr>
+  <tr>
+<td>DNI</td><td>text</td><td>DNI del alumno</td>
+ </tr>
+ </tbody></table>
+<h4> RESPONSE STATUS 400</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">GET /get/allAlumns
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>error
+</td>
+<td>text
+</td>
+<td>Motivo del error
+</td></tbody></table>
+
+
+
+<!-- /get/alumn -->
+<br>
+    <h2>Get alumn</h2>
+    <h4>REQUEST (url query)</h4>
+    <table class="wikitable">
+<tbody><tr>
+<th colspan="3">Request (url query)
+</th></tr>
+<tr>
+<th colspan="3">GET /get/alumn <br> example: /get/alumn?username="usuario"
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>username
+</td>
+<td>text
+</td>
+<td>Nombre de usuario
+</td></tr>
+</tbody></table>
+<h4>RESPONSE STATUS 200</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">GET /get/alumn
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+  </th><tr><td></td><td></td><td>Se devuelve un objeto JSON de perfil de alumno entero, igual que el de base de datos. <a href="#jsonAlumn">Ejemplo</a></td></tr></tbody></table>
+<h4> RESPONSE STATUS 400</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">GET /get/alumn
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>error
+</td>
+<td>text
+</td>
+<td>Motivo del error
+</td></tbody></table>
+
+
+
+
+
+<!-- /insert/alumn -->
+<br><br>
+  <h2>Insert documentsProfile</h2>
+  <h4> REQUEST </h4>
+  <table class="wikitable">
+<tbody><tr>
+<th colspan="3">Request : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /insert/alumn
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th><tr><td>alumn</td><td>JSON Object</td><td>Se debe informar de un objeto JSON de alumno entero, igual que el de base de datos. <a href="#jsonAlumn">Ejemplo</a></td></tr>
+  </tr>
+</tbody></table>
+<h4> RESPONSE STATUS 200</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /insert/alumn
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>insertCount
+</td>
+<td>integer
+</td>
+<td>Numero de inserciones
+</td></tbody></table>
+<h4> RESPONSE STATUS 400</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /insert/alumn
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>error
+</td>
+<td>text
+</td>
+<td>Motivo del error
+</td></tbody></table>
+
+
+
+
+
+
+
+
+<!-- NO IMPLEMENTED -->
 <br><br><br>
 <h1> NO IMPLEMENTED </h1>
 <h2> UPDATE </h2>
