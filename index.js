@@ -103,7 +103,7 @@ function checkAlumnLogin(usr, pass, res)
 		if (err) throw err;	
 		var dbo = db.db(mongoDb);
 		var passMd5 = crypto.createHash('md5').update(pass).digest("hex");
-		dbo.collection(collectionAlum).findOne({email : usr, password : passMd5}, function(err, result) {
+		dbo.collection(collectionAlum).findOne({username : usr, password : passMd5}, function(err, result) {
 			if (err) throw err;
 			if (result != null)
 			{
