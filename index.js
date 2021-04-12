@@ -477,39 +477,42 @@ app.post('/insert/alumn', protectedRoute, checkAdminToken, (req, res) => {
 // post /update/matriculatedUfs
 // ---------------------------------------------------------
 app.post('/update/matriculatedUfs', protectedRoute, (req, res) => {	
-	res.status(200).send({"updateCount":"1"});
-	// res.header('Access-Control-Allow-Origin', '*');
- //    res.header('Access-Control-Allow-Headers', 'Content-Type, access-token, Access-Control-Allow-Origin');
- //    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
- //    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
-	// var qMatriculatedUfs = req.body.matriculatedUfs;
-	// var qEmail = req.body.email;
-	// if (qMatriculatedUfs != undefined && qEmail != undefined)
-	// {
-	// 	MongoClient.connect(mongoUrl, function(err, db) {
-	// 		if (err) {
-	// 			res.status(400).send({"error": "Error inesperado en el servidor" });
-	// 			console.log("ERROR MONGO: " + err);
-	// 			return;
-	// 		}	
-	// 		var dbo = db.db(mongoDb);			
-	// 		var query = {email : qEmail};
-	// 		var newValues = { $set: {matriculatedUfs: qMatriculatedUfs} };
-	// 		dbo.collection(collectionAlumn).updateOne(query, newValues, function(err, updResult){
-	// 			if (err) {
-	// 				res.status(400).send({"error": "Error inesperado en el servidor" });
-	// 				console.log("ERROR MONGO: " + err);
-	// 				return;
-	// 			}	
-	// 			res.status(200).send({"updateCount":"1"});
-	// 			db.close();
-	// 		});	
-	// 	});
-	// }
-	// else
-	// {
-	// 	res.status(400).send({"error" : "No se ha informado del campo matriculatedUfs o del campo qEmail"})
-	// }	
+	var qMatriculatedUfs = req.body.matriculatedUfs;
+	var qEmail = req.body.email;
+	if (qMatriculatedUfs != undefined && qEmail != undefined)
+	{
+		MongoClient.connect(mongoUrl, function(err, db) {
+			if (err) {
+				res.status(400).send({"error": "Error inesperado en el servidor" });
+				console.log("ERROR MONGO: " + err);
+				return;
+			}	
+			var dbo = db.db(mongoDb);			
+			var query = {email : qEmail};
+			var newValues = { $push: {matriculatedUfs: { $each: qMatriculatedUfs } } };
+			dbo.collection(collectionAlumn).updateOne(query, newValues, function(err, updResult){
+				if (err) {
+					res.status(400).send({"error": "Error inesperado en el servidor" });
+					console.log("ERROR MONGO: " + err);
+					return;
+				}	
+				if (updResult)
+				{
+					res.status(200).send({"updateCount":"1"});
+				}
+				else
+				{
+					res.status(400).send({"error":"no se ha updateado nada"});
+				}
+				
+				db.close();
+			});	
+		});
+	}
+	else
+	{
+		res.status(400).send({"error" : "No se ha informado del campo matriculatedUfs o del campo qEmail"})
+	}	
 })
 
 
