@@ -347,7 +347,7 @@ app.get('/get/allAlumns', protectedRoute, checkAdminToken, (req, res) => {
 				return;
 			} 
 			var dbo = db.db(mongoDb);
-			dbo.collection(collectionAlum).find({termCode : qCareerCode}).project({name : 1, firstSurname : 1, secondSurname : 1, DNI : 1}).toArray(function(err, result) {
+			dbo.collection(collectionAlum).find({termCode : qCareerCode}).project({name : 1, firstSurname : 1, secondSurname : 1, DNI : 1, NIE: 1, PASS: 1}).toArray(function(err, result) {
 				if (err) {
 					res.status(400).send({"error": "Error inesperado en el servidor" });
 					console.log("ERROR MONGO: " + err);
