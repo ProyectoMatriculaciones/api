@@ -490,7 +490,7 @@ app.post('/update/matriculatedUfs', protectedRoute, (req, res) => {
 			var dbo = db.db(mongoDb);			
 			var query = {email : qEmail};
 			var newValues = { $push: {matriculatedUfs: { $each: qMatriculatedUfs } } };
-			dbo.collection(collectionAlumn).updateOne(query, newValues, function(err, updResult){
+			dbo.collection(collectionAlum).updateOne(query, newValues, function(err, updResult){
 				if (err) {
 					res.status(400).send({"error": "Error inesperado en el servidor" });
 					console.log("ERROR MONGO: " + err);
