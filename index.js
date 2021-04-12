@@ -422,8 +422,24 @@ app.post('/insert/alumn', protectedRoute, checkAdminToken, (req, res) => {
 			var dbo = db.db(mongoDb);
 			
 			// Check not exists a alumn with same email or dni before insert
-			
-			dbo.collection(collectionAlum).findOne({$or:[{email : alumn.email}, {DNI : alumn.DNI}]}, function(err, result) {
+			var identificator;
+			if (alumn.DNI)
+			{
+				identificator = {DNI : alumn.DNI}
+			}
+			else if (alumn.NIE)
+			{
+				identificator = {NIE : alumn.NIE}
+			}
+			else if (alumn.PASS)
+			{
+				identificator = {PASS : alumn.PASS}
+			}
+			else
+			{
+				res.status(400).send({"error": "No se ha informado de ningun identificator valido"})
+			}
+			dbo.collection(collectionAlum).findOne({$or:[{email : alumn.email}, identificator]}, function(err, result) {
 				if (err) {
 					res.status(400).send({"error": "Error inesperado en el servidor" });
 					console.log("ERROR MONGO: " + err);
