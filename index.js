@@ -476,7 +476,11 @@ app.post('/insert/alumn', protectedRoute, checkAdminToken, (req, res) => {
 // ---------------------------------------------------------
 // post /update/matriculatedUfs
 // ---------------------------------------------------------
-app.post('/update/matriculatedUfs', protectedRoute, (req, res) => {
+app.post('/update/matriculatedUfs', protectedRoute, (req, res) => {	
+	res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, access-token, Access-Control-Allow-Origin');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
 	var qMatriculatedUfs = req.body.matriculatedUfs;
 	var qEmail = req.body.email;
 	if (qMatriculatedUfs != undefined && qEmail != undefined)
