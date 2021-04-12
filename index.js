@@ -157,7 +157,7 @@ function checkAdminLogin(usr, pass, res)
 		if (err) throw err;
 		var dbo = db.db(mongoDb);
 		//var passMd5 = crypto.createHash('md5').update(pass).digest("hex");
-		dbo.collection(collectionAdmin).findOne({username : usr, password : pass}, function(err, result) {
+		dbo.collection(collectionAdmin).findOne({email : usr, password : pass}, function(err, result) {
 			if (err) throw err;
 			if (result != null)
 			{
