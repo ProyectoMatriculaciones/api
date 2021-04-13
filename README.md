@@ -912,9 +912,9 @@
 
 
 
-<!-- NO IMPLEMENTED -->
+<!-- NO IMPLEMENTED -- GRADE -->
 <br><br><br>
-<h1> NO IMPLEMENTED </h1>
+<h1> NO IMPLEMENTED -- GRADE</h1>
 <h2> UPDATE </h2>
   <h4> REQUEST </h4>
   <table class="wikitable">
@@ -1059,6 +1059,163 @@
 </td>
 <td>Motivo del error
 </td></tbody></table>
+
+
+
+
+<!-- NO IMPLEMENTED -- ALUMN -->
+<br><br><br>
+<h1> NO IMPLEMENTED -- ALUMN</h1>
+<h2> UPDATE </h2>
+  <h4> REQUEST </h4>
+  <table class="wikitable">
+<tbody><tr>
+<th colspan="3">Request : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /update/alumn
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th><tr>
+<td>email
+</td>
+<td>text
+</td>
+<td>Email del alumno que se quiere updatear
+  </td></tr>
+  <tr>
+<td>alumn
+</td>
+<td>JSON Object
+</td>
+<td>Un objeto JSON con todos aquellos campos y valores que se quieran actualizar
+  </td></tr>
+</tbody></table>
+<h4> RESPONSE STATUS 200</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /update/alumn
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>updateCount
+</td>
+<td>integer
+</td>
+<td>Numero de updates
+  </td></tr></tbody></table>
+<h4> RESPONSE STATUS 400</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /update/alumn
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>error
+</td>
+<td>text
+</td>
+<td>Motivo del error
+</td></tbody></table>
+
+
+<br>
+<h2> DELETE </h2>
+  <h4> REQUEST </h4>
+  <table class="wikitable">
+<tbody><tr>
+<th colspan="3">Request : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /delete/alumn
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th><tr>
+<td>emails
+</td>
+<td>JSON Array
+</td>
+<td>Email/s de el/los alumno/s que se quiera borrar
+  </td></tr>
+</tbody></table>
+<h4> RESPONSE STATUS 200</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /delete/alumn
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>deleteCount
+</td>
+<td>integer
+</td>
+<td>Numero de deletes
+  </td></tr></tbody></table>
+<h4> RESPONSE STATUS 400</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /delete/alumn
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>error
+</td>
+<td>text
+</td>
+<td>Motivo del error
+</td></tbody></table>
+
+
+
+
+
+<!-- JSON EXAMPLES -->
 <br><br><br><h1>JSON EXAMPLES</h1>
 <br><h2>Grade JSON<h2>
 <pre id="jsonGrade">
