@@ -1,7 +1,17 @@
+<a href="#endpointsLogin"> 1. Endpoints Login </a><br>
+<a href="#endpointsCiclos"> 2. Endpoints Ciclos </a><br>
+<a href="#endpointsPerfiles"> 3. Endpoints Perfiles de Documentos </a><br>
+<a href="#endpointsAlumnos"> 4. Endpoints Alumnos </a><br>
+<a href="#endpointsNoImplementedCiclos"> 5. Endpoints NO IMPLEMENTED Ciclos </a><br>
+<a href="#endpointsNoImplementedAlumnos"> 6. Endpoints NO IMPLEMENTED Alumnos </a><br>
+
+
+
 --------------------------------
 ****ENDPOINTS DOCUMENTATION****:
 --------------------------------
 
+<h2 id="endpointsLogin"> **LOGIN** </h2>
 <h2>Alumn Login</h2>
 <h4>REQUEST</h4>
 <table class="wikitable">
@@ -133,7 +143,7 @@
 
   <br><br>
   <!-- CICLES -->
-  <h2> **CICLES** </h2>
+  <h2 id="endpointsCiclos"> **CICLES** </h2>
   <!-- /get/allGrades -->
    <h2>Get all grades</h2>
   <h4> REQUEST </h4>
@@ -344,7 +354,7 @@
 
 
 <!-- PERFILES DE DOCUMENTOS -->
-<h2> **PERFILES DE DOCUMENTOS** </h2>
+<h2 id="endpointsPerfiles"> **PERFILES DE DOCUMENTOS** </h2>
 <!-- /get/allDocumentsProfile -->
 <h2>Get all documents profile</h2>
   <h4> REQUEST </h4>
@@ -560,7 +570,7 @@
 
 
 <!-- ALUMNOS -->
-<h2> **ALUMNOS** </h2>
+<h2 id="endpointsAlumnos"> **ALUMNOS** </h2>
 
 <!-- /get/allAlumns -->
 <h2>Get all Alumns</h2>
@@ -914,7 +924,7 @@
 
 <!-- NO IMPLEMENTED -- GRADE -->
 <br><br><br>
-<h1> NO IMPLEMENTED -- GRADE</h1>
+<h1 id="endpointsNoImplementedCiclos"> NO IMPLEMENTED -- GRADE</h1>
 <h2> UPDATE </h2>
   <h4> REQUEST </h4>
   <table class="wikitable">
@@ -1065,7 +1075,7 @@
 
 <!-- NO IMPLEMENTED -- ALUMN -->
 <br><br><br>
-<h1> NO IMPLEMENTED -- ALUMN</h1>
+<h1 id="endpointsNoImplementedAlumnos"> NO IMPLEMENTED -- ALUMN</h1>
 <h2> UPDATE </h2>
   <h4> REQUEST </h4>
   <table class="wikitable">
