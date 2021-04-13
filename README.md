@@ -602,6 +602,12 @@
   <tr>
 <td>DNI</td><td>text</td><td>DNI del alumno</td>
  </tr>
+  <tr>
+<td>NIE</td><td>text</td><td>NIE del alumno</td>
+ </tr>
+  <tr>
+<td>PASS</td><td>text</td><td>PASS (pasaporte) del alumno</td>
+ </tr>
  </tbody></table>
 <h4> RESPONSE STATUS 400</h4>
 <table class="wikitable">
@@ -698,7 +704,7 @@
 
 <!-- /insert/alumn -->
 <br><br>
-  <h2>Insert documentsProfile</h2>
+  <h2>Insert alumn</h2>
   <h4> REQUEST </h4>
   <table class="wikitable">
 <tbody><tr>
@@ -760,6 +766,144 @@
 </td>
 <td>Motivo del error
 </td></tbody></table>
+
+
+
+
+<!-- /update/matriculatedUfs -->
+<h2>insert/update matriculated ufs (alumn)</h2>
+  <h4> REQUEST </h4>
+  <table class="wikitable">
+<tbody><tr>
+<th colspan="3">Request : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /update/matriculatedUfs
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th><tr><td>matriculatedUfs</td><td>JSON ARRAY</td><td>Una JSON ARRAY que contiene los codigos de UFS</td></tr>
+  <tr><td>email</td><td>text</td><td>email que identifica el usuario</td></tr></tr>
+</tbody></table>
+<h4> RESPONSE STATUS 200</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /update/matriculatedUfs
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>updateCount
+</td>
+<td>integer
+</td>
+<td>Numero de updates
+</td></tbody></table>
+<h4> RESPONSE STATUS 400</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /update/matriculatedUfs
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>error
+</td>
+<td>text
+</td>
+<td>Motivo del error
+</td></tbody></table>
+
+
+
+
+
+<!-- /update/selectedDocumentsProfile -->
+<h2>insert/update matriculated ufs (alumn)</h2>
+  <h4> REQUEST </h4>
+  <table class="wikitable">
+<tbody><tr>
+<th colspan="3">Request : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /update/selectedDocumentsProfile
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th><tr><td>documentsProfile</td><td>JSON Object</td><td>Se debe informar de un objeto JSON de documentsProfile entero, igual que el de base de datos. <a href="#jsonProfile">Ejemplo</a></td></tr>
+  <tr><td>email</td><td>text</td><td>email que identifica el usuario</td></tr></tr>
+</tbody></table>
+<h4> RESPONSE STATUS 200</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /update/selectedDocumentsProfile
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>updateCount
+</td>
+<td>integer
+</td>
+<td>Numero de updates
+</td></tbody></table>
+<h4> RESPONSE STATUS 400</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /update/selectedDocumentsProfile
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>error
+</td>
+<td>text
+</td>
+<td>Motivo del error
+</td></tbody></table>
+
+
+
 
 
 
