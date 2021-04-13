@@ -1123,3 +1123,100 @@
 }
   </pre>
   
+  
+  <br><br><h2>Alumn JSON<h2>
+<pre id="jsonAlumn">
+{
+    "residenceCountry": "Espanya",
+    "modality": "",
+    "birthdate": "30/11/2004",
+    "firstGuardianSurname2": "Ramos",
+    "firstGuardianSurname1": "Soler",
+    "secondGuardianSurname2": "",
+    "language": "Català i Castellà",
+    "secondGuardianSurname1": "Gómez",
+    "docTypeFirstGuardian": "DNI",
+    "password": "098f6bcd4621d373cade4e832627b4f6",
+    "docTypeSecondGuardian": "DNI",
+    "RACLIdentification": "620525022",
+    "convocatory": " Cicles mitjans d'FP 2020/2021",
+    "regimeP1": "Diürn",
+    "originInstituteName": "El Pilar",
+    "birthCountry": "Espanya",
+    "secondSurname": "Gómez",
+    "residenceMunicipality": "Cornellà de Llobregat",
+    "secondGuardianName": "Aaron",
+    "termName": "Sistemes microinformàtics i xarxes",
+    "assignedInstituteCode": "08016781",
+    "otherInfo": "Bloc: -- Escala: -- Planta: baixos  Porta: 4 Altres dades: --",
+    "instituteNameP1": "Institut Esteve Terradas i Illa",
+    "numDocFirstGuardian": "45831142P",
+    "numDocSecondGuardian": "41834442H",
+    "phoneNumber": "614365601",
+    "scheduleP1": "Matí",
+    "PASS": "",
+    "nationality": "Espanya",
+    "originInstituteCode": "08016461",
+    "convocatoryCode": "PRE20-2100191921",
+    "courseP1": "1",
+    "termStatus": "Validada",
+    "name": "Núria",
+    "addressNumber": "11",
+    "termType": "SI",
+    "originTitleCode": "7",
+    "birthMunicipality": "Cornellà de Llobregat",
+    "resideceProvince": "Barcelona",
+    "instituteMunicipality": "Cornellà de Llobregat",
+    "residenceLocality": "Can Fatjó",
+    "lastCourse": "4",
+    "firstSurname": "Soler",
+    "email": "muzqtzsge1@caramail.com",
+    "instituteFinanciationP1": "Públic",
+    "firstGuardianName": "Josep",
+    "originTitleName": "Educació Secundària Obligatòria",
+    "instituteSSTT": "Baix Llobregat",
+    "sex": "Dona",
+    "acces": "CR",
+    "NIE": "",
+    "CP": "08940",
+    "religion": "",
+    "sessionToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNzQ1OWQ1ZWM4OTgxMDAwNDQyNTY3YiIsImFkbWluIjpmYWxzZSwiaWF0IjoxNjE4MzI2MjA4LCJleHAiOjE2MTgzMjc2NDh9.m4fiyyYEYEdGQ6Pgh60UO1hvwLLBPfaPVsIQwe_GhuI",
+    "alumnType": "Ordinari",
+    "addressName": "Laureà Miró",
+    "instituteCodeP1": "08016781",
+    "modalityCode": "",
+    "DNI": "83326696L",
+    "termCode": "CFPM    IC10",
+    "TIS": "",
+    "selectedDocumentsProfile": {
+        "_id": "604f709556b48a1bf4de04ae",
+        "arrayDoc": [{
+            "name": "Payment"
+        }, {
+            "name": "DNI"
+        }, {
+            "name": "Academical expedient"
+        }],
+        "name": "Basic Profile",
+        "description": "Perfil con la imagen del DNI, el expediente academico y la fotocopia del pago"
+    },
+    "matriculatedUfs": ["IC1000101", "IC1000102", "IC1000103", "IC1000104", "IC1000105", "IC1000106", "IC1000201", "IC1000202", "IC1000203", "IC1000301", "IC1000303", "IC1000305", "IC1000101", "IC1000102", "IC1000103", "IC1000104", "IC1000105", "IC1000106", "IC1000201", "IC1000202", "IC1000203", "IC1000301", "IC1000303", "IC1000305", "IC1000401", "IC1000402"]
+}
+</pre>
+  
+  
+  <br><br><h2>DocumentsProfile JSON<h2>
+<pre id="jsonProfile">
+{
+    "arrayDoc": [{
+        "name": "Payment"
+    }, {
+        "name": "DNI"
+    }, {
+        "name": "Academical expedient"
+    }],
+    "name": "Basic Profile",
+    "description": "Perfil con la imagen del DNI, el expediente academico y la fotocopia del pago"
+}
+</pre>
+  
