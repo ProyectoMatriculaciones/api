@@ -8,7 +8,6 @@ const jwt = require('jsonwebtoken')
 var bodyParser = require('body-parser')
 var crypto = require('crypto');
 const express = require('express')
-
 // Const and global vars
 const app = express()
 const port = process.env.PORT || 3000
@@ -347,7 +346,7 @@ app.get('/get/allAlumns', protectedRoute, checkAdminToken, (req, res) => {
 				return;
 			} 
 			var dbo = db.db(mongoDb);
-			dbo.collection(collectionAlum).find({termCode : qCareerCode}).project({name : 1, firstSurname : 1, secondSurname : 1, DNI : 1, NIE: 1, PASS: 1}).toArray(function(err, result) {
+			dbo.collection(collectionAlum).find({termCode : qCareerCode}).project({name : 1, firstSurname : 1, secondSurname : 1, DNI : 1, NIE: 1, PASS: 1, email: 1}).toArray(function(err, result) {
 				if (err) {
 					res.status(400).send({"error": "Error inesperado en el servidor" });
 					console.log("ERROR MONGO: " + err);
@@ -700,6 +699,7 @@ app.post('/update/selectedDocumentsProfile', protectedRoute, (req, res) => {
 		res.status(400).send({"error" : "No se ha informado del campo matriculatedUfs o del campo qEmail"})
 	}	
 })
+
 
 // ---------------------------------------------------------
 // listen port
