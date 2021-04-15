@@ -17,6 +17,7 @@ app.use(upload())
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
 const port = process.env.PORT || 3000
+const appDir = '/app'
 
 
 const mongoDb = "MatriculationDB"
@@ -723,7 +724,7 @@ app.post('/upload/documentsFile', (req, res) => {
 	var file = req.files.file;
 	var fileName = file.name; 
 
-	var dirUploads = './uploads';
+	var dirUploads = appDir + '/uploads';
 	createDirIfNotExists(dirUploads)
 
 	var dirAlumn = dirUploads + '/' + emailNoSymbols;
