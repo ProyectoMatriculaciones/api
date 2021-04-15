@@ -729,7 +729,7 @@ app.post('/upload/documentsFile', protectedRoute, (req, res) => {
 			return;
 		}	
 		var dbo = db.db(mongoDb);			
-		dbo.collection(collectionAlum).findOne({email : qEmail, selectedDocumentsProfile.name : qProfileName, selectedDocumentsProfile.arrayDoc.documentName : qDocumentName}, function(err, result) {
+		dbo.collection(collectionAlum).findOne({email : qEmail, 'selectedDocumentsProfile.name' : qProfileName, 'selectedDocumentsProfile.arrayDoc.documentName' : qDocumentName}, function(err, result) {
 			if (err) {
 				res.status(400).send({"error": "Error inesperado en el servidor" });
 				console.log("ERROR MONGO: " + err);
@@ -757,8 +757,8 @@ app.post('/upload/documentsFile', protectedRoute, (req, res) => {
 				});
 
 				// update filePath 
-				var query = {email : qEmail, selectedDocumentsProfile.name : qProfileName, selectedDocumentsProfile.arrayDoc.documentName : qDocumentName};
-				var newValues = { $set: {selectedDocumentsProfile.arrayDoc.$.filePath: dirAlumnProfileDocument + '/' + fileName} };
+				var query = {email : qEmail, 'selectedDocumentsProfile.name' : qProfileName, 'selectedDocumentsProfile.arrayDoc.documentName' : qDocumentName};
+				var newValues = { $set: {'selectedDocumentsProfile.arrayDoc.$.filePath': dirAlumnProfileDocument + '/' + fileName} };
 				dbo.collection(collectionAlum).updateOne(query, newValues, function(err, updResult){
 					if (err) {
 						res.status(400).send({"error": "Error inesperado en el servidor" });
