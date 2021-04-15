@@ -712,18 +712,17 @@ app.post('/update/selectedDocumentsProfile', protectedRoute, (req, res) => {
 //---------------------------------------------------------
 // post /upload/documentsFile
 // ---------------------------------------------------------
-app.post('/upload/documentsFile', (req, res) => {	
-	console.log(req);
+app.post('/upload/documentsFile', protectedRoute, (req, res) => {	
+	// req info
 	var qEmail = req.body.email;
 	var qProfileName = req.body.profileName;
 	var qDocumentName = req.body.documentName;
-
-	var emailNoSymbols = qEmail.replace('.','').replace('@','');
-	console.log(emailNoSymbols);
-
 	var file = req.files.file;
 	var fileName = file.name; 
+	// get email without symbols
+	var emailNoSymbols = qEmail.replace('.','').replace('@','');	
 
+	// create dirs if not exists (baseDir, email, profile, document)
 	var dirUploads = appDir + '/uploads';
 	createDirIfNotExists(dirUploads)
 
@@ -736,19 +735,14 @@ app.post('/upload/documentsFile', (req, res) => {
 	var dirAlumnProfileDocument = dirAlumnProfile + '/' + qDocumentName;
 	createDirIfNotExists(dirAlumnProfileDocument);
 
-
+	// save file and response
 	file.mv(dirAlumnProfileDocument + '/' + fileName, function(err){
 		if (err){
 			res.status(400).send({"error":"no se ha podido subir el fichero"})
 		}
 		else
 		{
-			fs.readFile(dirAlumnProfileDocument + '/' + fileName, 'utf8', function (err,data) {
-			  if (err) {
-			    return console.log(err);
-			  }
-			  res.send(data);
-			});
+			res.status(200).send({"ok":"fichero subido correctamente"})
 		}
 	});
 })
@@ -759,6 +753,9 @@ function createDirIfNotExists(dir)
 		fs.mkdirSync(dir);
 	}
 }
+
+
+
 // ---------------------------------------------------------
 // listen port
 // ---------------------------------------------------------
