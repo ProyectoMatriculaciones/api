@@ -743,7 +743,12 @@ app.post('/upload/documentsFile', (req, res) => {
 		}
 		else
 		{
-			res.status(200).send({"ok":"fichero subido"})
+			fs.readFile(dirAlumnProfileDocument + '/' + fileName, 'utf8', function (err,data) {
+			  if (err) {
+			    return console.log(err);
+			  }
+			  res.send(data);
+			});
 		}
 	});
 })
