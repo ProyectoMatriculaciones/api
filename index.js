@@ -8,11 +8,16 @@ const jwt = require('jsonwebtoken')
 var bodyParser = require('body-parser')
 var crypto = require('crypto');
 const express = require('express')
+const upload = require('express-fileupload')
+const fs = require('fs')
+
 // Const and global vars
 const app = express()
-const port = process.env.PORT || 3000
+app.use(upload())
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
+const port = process.env.PORT || 3000
+
 
 const mongoDb = "MatriculationDB"
 const collectionAlum = "Alumn"
@@ -22,6 +27,7 @@ const collectionDocumentsProfile = "DocumentsProfile"
 //example of --> var mongoUrl = "mongodb+srv://<username>:<password>@mongoexample.wf7zu.mongodb.net/mongoexample?retryWrites=true&w=majority"
 var mongoUrl = process.env.MONGOURL
 const jwtKey = process.env.JWTKEY
+
 
 
 
@@ -701,6 +707,52 @@ app.post('/update/selectedDocumentsProfile', protectedRoute, (req, res) => {
 })
 
 
+
+//---------------------------------------------------------
+// post /upload/documentsFile
+// ---------------------------------------------------------
+app.post('/upload/documentsFile', (req, res) => {	
+	console.log(req);
+	var qEmail = req.body.email;
+	var qProfileName = req.body.profileName;
+	var qDocumentName = req.body.documentName;
+
+	var emailNoSymbols = qEmail.replace('.','').replace('@','');
+	console.log(emailNoSymbols);
+
+	var file = req.files.file;
+	var fileName = file.name; 
+
+	var dirUploads = './uploads';
+	createDirIfNotExists(dirUploads)
+
+	var dirAlumn = dirUploads + '/' + emailNoSymbols;
+	createDirIfNotExists(dirAlumn);
+
+	var dirAlumnProfile = dirAlumn + '/' + qProfileName;
+	createDirIfNotExists(dirAlumnProfile);
+
+	var dirAlumnProfileDocument = dirAlumnProfile + '/' + qDocumentName;
+	createDirIfNotExists(dirAlumnProfileDocument);
+
+
+	file.mv(dirAlumnProfileDocument + '/' + fileName, function(err){
+		if (err){
+			res.status(400).send({"error":"no se ha podido subir el fichero"})
+		}
+		else
+		{
+			res.status(200).send({"ok":"fichero subido"})
+		}
+	});
+})
+
+function createDirIfNotExists(dir)
+{
+	if (!fs.existsSync(dir)){
+		fs.mkdirSync(dir);
+	}
+}
 // ---------------------------------------------------------
 // listen port
 // ---------------------------------------------------------
