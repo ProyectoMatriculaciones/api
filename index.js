@@ -720,31 +720,70 @@ app.post('/upload/documentsFile', protectedRoute, (req, res) => {
 	var file = req.files.file;
 	var fileName = file.name; 
 	// get email without symbols
-	var emailNoSymbols = qEmail.replace('.','').replace('@','');	
+	var emailNoSymbols = qEmail.replace('.','').replace('@','');		
 
-	// create dirs if not exists (baseDir, email, profile, document)
-	var dirUploads = appDir + '/uploads';
-	createDirIfNotExists(dirUploads)
+	MongoClient.connect(mongoUrl, function(err, db) {
+		if (err) {
+			res.status(400).send({"error": "Error inesperado en el servidor" });
+			console.log("ERROR MONGO: " + err);
+			return;
+		}	
+		var dbo = db.db(mongoDb);			
+		dbo.collection(collectionAlum).findOne({email : qEmail, selectedDocumentsProfile.name : qProfileName, selectedDocumentsProfile.arrayDoc.documentName : qDocumentName}, function(err, result) {
+			if (err) {
+				res.status(400).send({"error": "Error inesperado en el servidor" });
+				console.log("ERROR MONGO: " + err);
+			}		
+			else if (result != null)
+			{
+				// create dirs if not exists (baseDir, email, profile, document)
+				var dirUploads = appDir + '/uploads';
+				createDirIfNotExists(dirUploads)
 
-	var dirAlumn = dirUploads + '/' + emailNoSymbols;
-	createDirIfNotExists(dirAlumn);
+				var dirAlumn = dirUploads + '/' + emailNoSymbols;
+				createDirIfNotExists(dirAlumn);
 
-	var dirAlumnProfile = dirAlumn + '/' + qProfileName;
-	createDirIfNotExists(dirAlumnProfile);
+				var dirAlumnProfile = dirAlumn + '/' + qProfileName;
+				createDirIfNotExists(dirAlumnProfile);
 
-	var dirAlumnProfileDocument = dirAlumnProfile + '/' + qDocumentName;
-	createDirIfNotExists(dirAlumnProfileDocument);
+				var dirAlumnProfileDocument = dirAlumnProfile + '/' + qDocumentName;
+				createDirIfNotExists(dirAlumnProfileDocument);
 
-	// save file and response
-	file.mv(dirAlumnProfileDocument + '/' + fileName, function(err){
-		if (err){
-			res.status(400).send({"error":"no se ha podido subir el fichero"})
-		}
-		else
-		{
-			res.status(200).send({"ok":"fichero subido correctamente"})
-		}
+				// save file and response
+				file.mv(dirAlumnProfileDocument + '/' + fileName, function(err){
+					if (err){
+						res.status(400).send({"error":"no se ha podido subir el fichero"})
+					}
+				});
+
+				// update filePath 
+				var query = {email : qEmail, selectedDocumentsProfile.name : qProfileName, selectedDocumentsProfile.arrayDoc.documentName : qDocumentName};
+				var newValues = { $set: {selectedDocumentsProfile.arrayDoc.$.filePath: dirAlumnProfileDocument + '/' + fileName} };
+				dbo.collection(collectionAlum).updateOne(query, newValues, function(err, updResult){
+					if (err) {
+						res.status(400).send({"error": "Error inesperado en el servidor" });
+						console.log("ERROR MONGO: " + err);
+					}
+					else if (updResult)
+					{
+						res.status(200).send({"ok":"fichero subido correctamente"});
+					}
+					else
+					{
+						res.status(400).send({"error":"no se ha podido actualizar el campo de ruta en la base de datos"});
+					}				
+					db.close();
+				});	
+			}	
+			else
+			{
+				res.status(400).send({"error":"No se ha encontrado ningun alumno con ese email, perfil y documento"});
+			}		
+			db.close();
+	});		
 	});
+
+	
 })
 
 function createDirIfNotExists(dir)
