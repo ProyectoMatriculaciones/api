@@ -829,7 +829,7 @@ app.post('/get/document', protectedRoute, checkAdminToken, (req, res) => {
 	if (qUsername != undefined && qProfileName != undefined && qDocumentName != undefined)
 	{
 		var query = {email : qUsername, 'selectedDocumentsProfile.name' : qProfileName, 'selectedDocumentsProfile.arrayDoc.documentName' : qDocumentName};
-		var project = {projection: {'selectedDocumentsProfile.arrayDoc.$.filePath' : 1} };
+		var project = {projection: {'selectedDocumentsProfile.arrayDoc.$' : 1} };
 		MongoClient.connect(mongoUrl, function(err, db) {
 			if (err) {
 				res.status(400).send({"error": "Error inesperado en el servidor" });
