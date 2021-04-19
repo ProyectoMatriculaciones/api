@@ -845,11 +845,11 @@ app.post('/get/document', protectedRoute, checkAdminToken, (req, res) => {
 					}		
 					else if (result != null)
 					{
-						console.log(result);
-						let buff = fs.readFileSync(result.filePath);
+						console.log(result.selectedDocumentsProfile.arrayDoc[0]);
+						let buff = fs.readFileSync(result.selectedDocumentsProfile.arrayDoc[0].filePath);
 						let base64data = buff.toString('base64');
 
-						res.status(200).send({"filePath" : result.filePath, "data" : base64data});
+						res.status(200).send({"filePath" : result.selectedDocumentsProfile.arrayDoc[0].filePath, "data" : base64data});
 					}	
 					else
 					{
