@@ -947,15 +947,15 @@ app.post('/update/alumn', protectedRoute, checkAdminToken, (req, res) => {
 			else
 			{
 				var dbo = db.db(mongoDb);			
-				dbo.collection(collectionAlum).findOne({email : qEmail}, function(err, result) {
+				dbo.collection(collectionAlum).findOne({email : qUsername}, function(err, result) {
 					if (err) {
 						res.status(400).send({"error": "Error inesperado en el servidor" });
 						console.log("ERROR MONGO: " + err);
 					}		
 					else if (result != null)
 					{
-						// update validate and response
-						var query = {email : qEmail};
+						// update alumn and response
+						var query = {email : qUsername};
 						var newValues = { $set: updatedFields };
 						dbo.collection(collectionAlum).updateOne(query, newValues, function(err, updResult){
 							if (err) {
