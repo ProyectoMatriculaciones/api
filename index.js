@@ -850,12 +850,17 @@ app.post('/get/document', protectedRoute, checkAdminToken, (req, res) => {
 						console.log("ERROR MONGO: " + err);
 					}		
 					else if (result != null)
-					{
-						console.log(result.selectedDocumentsProfile.arrayDoc[0]);
-						let buff = fs.readFileSync(result.selectedDocumentsProfile.arrayDoc[0].filePath);
-						let base64data = buff.toString('base64');
-
-						res.status(200).send({"filePath" : result.selectedDocumentsProfile.arrayDoc[0].filePath, "data" : base64data});
+					{				
+						var path = result.selectedDocumentsProfile.arrayDoc[0].filePath;		
+						if (fs.existsSync(path)) {
+							let buff = fs.readFileSync(path);
+							let base64data = buff.toString('base64');
+							res.status(200).send({"filePath" : path, "data" : base64data});
+						}
+						else
+						{
+							res.status(400).send({"error":"El archivo ya no existe"});
+						}						
 					}	
 					else
 					{
@@ -906,7 +911,7 @@ app.post('/update/validateFile', protectedRoute, checkAdminToken, (req, res) => 
 					{
 						// update validate and response
 						var query = {email : qEmail, 'selectedDocumentsProfile.name' : qProfileName, 'selectedDocumentsProfile.arrayDoc.documentName' : qDocumentName};
-						var newValues = { $set: {'selectedDocumentsProfile.arrayDoc.$.validate': "OK"} };
+						var newValues = { $set: {'selectedDocumentsProfile.arrayDoc.$.validated': "OK"} };
 						dbo.collection(collectionAlum).updateOne(query, newValues, function(err, updResult){
 							if (err) {
 								res.status(400).send({"error": "Error inesperado en el servidor" });
@@ -948,7 +953,6 @@ app.post('/update/validateFile', protectedRoute, checkAdminToken, (req, res) => 
 app.post('/update/alumn', protectedRoute, checkAdminToken, (req, res) => {
 	var qUsername = req.body.email
 	var qUpdatedFields = req.body.updatedFields
-	console.log(req.body);
 	if (qUsername != undefined && qUpdatedFields != undefined)
 	{
 		MongoClient.connect(mongoUrl, function(err, db) {
