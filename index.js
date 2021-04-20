@@ -546,9 +546,8 @@ app.post('/insert/documentsProfile', protectedRoute, checkAdminToken, (req, res)
 				if (err) {
 					res.status(400).send({"error": "Error inesperado en el servidor" });
 					console.log("ERROR MONGO: " + err);
-					return;
 				}	
-				if (overwrite == "false" && result != null)
+				else if (overwrite == "false" && result != null)
 				{
 					res.status(400).send({"error": "Ya existe un perfil de documentos con el nombre " + documentsProfile.name});
 				}
@@ -563,9 +562,11 @@ app.post('/insert/documentsProfile', protectedRoute, checkAdminToken, (req, res)
 							if (err) {
 								res.status(400).send({"error": "Error inesperado en el servidor" });
 								console.log("ERROR MONGO: " + err);
-								return;
 							}	
-							res.status(200).send({"insertCount":"1"});
+							else
+							{
+								res.status(200).send({"insertCount":"1"});
+							}							
 							db.close();
 						});	
 					}
@@ -575,9 +576,11 @@ app.post('/insert/documentsProfile', protectedRoute, checkAdminToken, (req, res)
 							if (err) {
 								res.status(400).send({"error": "Error inesperado en el servidor" });
 								console.log("ERROR MONGO: " + err);
-								return;
 							}
-							res.status(200).send({"insertCount" : "1"})
+							else
+							{
+								res.status(200).send({"insertCount" : "1"})
+							}							
 							db.close();
 						});
 					}
@@ -604,21 +607,23 @@ app.get('/get/allDocumentsProfile', protectedRoute, (req, res) => {
 		if (err) {
 			res.status(400).send({"error": "Error inesperado en el servidor" }); 
 			console.log("ERROR MONGO: " + err); 
-			return;
 		} 
-		var dbo = db.db(mongoDb);
-		dbo.collection(collectionDocumentsProfile).find({}).toArray(function(err, result) {
-			if (err) {
-				res.status(400).send({"error": "Error inesperado en el servidor" });
-				console.log("ERROR MONGO: " + err);
-				return;
-			}						
-			res.status(200).send(result);
-			db.close();
-		});
-		
-	});
-	
+		else
+		{
+			var dbo = db.db(mongoDb);
+			dbo.collection(collectionDocumentsProfile).find({}).toArray(function(err, result) {
+				if (err) {
+					res.status(400).send({"error": "Error inesperado en el servidor" });
+					console.log("ERROR MONGO: " + err);				
+				}				
+				else
+				{
+					res.status(200).send(result);
+				}					
+				db.close();
+			});
+		}	
+	});	
 })
 
 
@@ -638,26 +643,27 @@ app.get('/get/documentsProfile', protectedRoute, (req, res) => {
 			if (err) {
 				res.status(400).send({"error": "Error inesperado en el servidor" });
 				console.log("ERROR MONGO: " + err);
-				return;
 			}	
-			var dbo = db.db(mongoDb);
-			dbo.collection(collectionDocumentsProfile).findOne({name : qName}, function(err, result) {
-				if (err) {
-					res.status(400).send({"error": "Error inesperado en el servidor" });
-					console.log("ERROR MONGO: " + err);
-					return;
-				}		
-				if (result != null)
-				{
-					res.status(200).send(result);
-				}	
-				else
-				{
-					res.status(400).send({"error":"No se ha encontrado ningun documentsProfile con ese name"});
-				}			
-				
-				db.close();
-			});			
+			else
+			{
+				var dbo = db.db(mongoDb);
+				dbo.collection(collectionDocumentsProfile).findOne({name : qName}, function(err, result) {
+					if (err) {
+						res.status(400).send({"error": "Error inesperado en el servidor" });
+						console.log("ERROR MONGO: " + err);
+					}		
+					else if (result != null)
+					{
+						res.status(200).send(result);
+					}	
+					else
+					{
+						res.status(400).send({"error":"No se ha encontrado ningun documentsProfile con ese name"});
+					}			
+					
+					db.close();
+				});			
+			}			
 		});
 	}	
 })
@@ -677,28 +683,29 @@ app.post('/update/selectedDocumentsProfile', protectedRoute, (req, res) => {
 			if (err) {
 				res.status(400).send({"error": "Error inesperado en el servidor" });
 				console.log("ERROR MONGO: " + err);
-				return;
 			}	
-			var dbo = db.db(mongoDb);			
-			var query = {email : qEmail};
-			var newValues = { $set: {selectedDocumentsProfile: qDocumentsProfile} };
-			dbo.collection(collectionAlum).updateOne(query, newValues, function(err, updResult){
-				if (err) {
-					res.status(400).send({"error": "Error inesperado en el servidor" });
-					console.log("ERROR MONGO: " + err);
-					return;
-				}	
-				if (updResult)
-				{
-					res.status(200).send({"updateCount":"1"});
-				}
-				else
-				{
-					res.status(400).send({"error":"no se ha updateado nada"});
-				}
-				
-				db.close();
-			});	
+			else
+			{
+				var dbo = db.db(mongoDb);			
+				var query = {email : qEmail};
+				var newValues = { $set: {selectedDocumentsProfile: qDocumentsProfile} };
+				dbo.collection(collectionAlum).updateOne(query, newValues, function(err, updResult){
+					if (err) {
+						res.status(400).send({"error": "Error inesperado en el servidor" });
+						console.log("ERROR MONGO: " + err);
+					}	
+					else if (updResult)
+					{
+						res.status(200).send({"updateCount":"1"});
+					}
+					else
+					{
+						res.status(400).send({"error":"no se ha updateado nada"});
+					}
+					
+					db.close();
+				});	
+			}			
 		});
 	}
 	else
@@ -731,61 +738,64 @@ app.post('/upload/documentsFile', protectedRoute, (req, res) => {
 			if (err) {
 				res.status(400).send({"error": "Error inesperado en el servidor" });
 				console.log("ERROR MONGO: " + err);
-				return;
 			}	
-			var dbo = db.db(mongoDb);			
-			dbo.collection(collectionAlum).findOne({email : qEmail, 'selectedDocumentsProfile.name' : qProfileName, 'selectedDocumentsProfile.arrayDoc.documentName' : qDocumentName}, function(err, result) {
-				if (err) {
-					res.status(400).send({"error": "Error inesperado en el servidor" });
-					console.log("ERROR MONGO: " + err);
-				}		
-				else if (result != null)
-				{
-					// create dirs if not exists (baseDir, email, profile, document)
-					var dirUploads = appDir + '/uploads';
-					createDirIfNotExists(dirUploads)
+			else
+			{
+				var dbo = db.db(mongoDb);			
+				dbo.collection(collectionAlum).findOne({email : qEmail, 'selectedDocumentsProfile.name' : qProfileName, 'selectedDocumentsProfile.arrayDoc.documentName' : qDocumentName}, function(err, result) {
+					if (err) {
+						res.status(400).send({"error": "Error inesperado en el servidor" });
+						console.log("ERROR MONGO: " + err);
+					}		
+					else if (result != null)
+					{
+						// create dirs if not exists (baseDir, email, profile, document)
+						var dirUploads = appDir + '/uploads';
+						createDirIfNotExists(dirUploads)
 
-					var dirAlumn = dirUploads + '/' + emailNoSymbols;
-					createDirIfNotExists(dirAlumn);
+						var dirAlumn = dirUploads + '/' + emailNoSymbols;
+						createDirIfNotExists(dirAlumn);
 
-					var dirAlumnProfile = dirAlumn + '/' + qProfileName;
-					createDirIfNotExists(dirAlumnProfile);
+						var dirAlumnProfile = dirAlumn + '/' + qProfileName;
+						createDirIfNotExists(dirAlumnProfile);
 
-					var dirAlumnProfileDocument = dirAlumnProfile + '/' + qDocumentName;
-					createEmptyDirRemoveIfExists(dirAlumnProfileDocument);
+						var dirAlumnProfileDocument = dirAlumnProfile + '/' + qDocumentName;
+						createEmptyDirRemoveIfExists(dirAlumnProfileDocument);
 
-					// save file 
-					file.mv(dirAlumnProfileDocument + '/' + fileName, function(err){
-						if (err){
-							res.status(400).send({"error":"no se ha podido subir el fichero"})
-						}
-					});
+						// save file 
+						file.mv(dirAlumnProfileDocument + '/' + fileName, function(err){
+							if (err){
+								res.status(400).send({"error":"no se ha podido subir el fichero"})
+							}
+						});
 
-					// update filePath and response
-					var query = {email : qEmail, 'selectedDocumentsProfile.name' : qProfileName, 'selectedDocumentsProfile.arrayDoc.documentName' : qDocumentName};
-					var newValues = { $set: {'selectedDocumentsProfile.arrayDoc.$.filePath': dirAlumnProfileDocument + '/' + fileName} };
-					dbo.collection(collectionAlum).updateOne(query, newValues, function(err, updResult){
-						if (err) {
-							res.status(400).send({"error": "Error inesperado en el servidor" });
-							console.log("ERROR MONGO: " + err);
-						}
-						else if (updResult)
-						{
-							res.status(200).send({"ok":"fichero subido correctamente"});
-						}
-						else
-						{
-							res.status(400).send({"error":"no se ha podido actualizar el campo de ruta en la base de datos"});
-						}				
-						db.close();
-					});	
-				}	
-				else
-				{
-					res.status(400).send({"error":"No se ha encontrado ningun alumno con ese email, perfil y documento"});
-				}		
-				db.close();
-			});		
+						// update filePath and response
+						var query = {email : qEmail, 'selectedDocumentsProfile.name' : qProfileName, 'selectedDocumentsProfile.arrayDoc.documentName' : qDocumentName};
+						var newValues = { $set: {'selectedDocumentsProfile.arrayDoc.$.filePath': dirAlumnProfileDocument + '/' + fileName} };
+						dbo.collection(collectionAlum).updateOne(query, newValues, function(err, updResult){
+							if (err) {
+								res.status(400).send({"error": "Error inesperado en el servidor" });
+								console.log("ERROR MONGO: " + err);
+							}
+							else if (updResult)
+							{
+								res.status(200).send({"ok":"fichero subido correctamente"});
+							}
+							else
+							{
+								res.status(400).send({"error":"no se ha podido actualizar el campo de ruta en la base de datos"});
+							}				
+							db.close();
+						});	
+					}	
+					else
+					{
+						res.status(400).send({"error":"No se ha encontrado ningun alumno con ese email, perfil y documento"});
+					}		
+					db.close();
+				});		
+			}
+			
 		});
 	}
 	else
@@ -883,41 +893,43 @@ app.post('/update/validateFile', protectedRoute, checkAdminToken, (req, res) => 
 			if (err) {
 				res.status(400).send({"error": "Error inesperado en el servidor" });
 				console.log("ERROR MONGO: " + err);
-				return;
 			}	
-			var dbo = db.db(mongoDb);			
-			dbo.collection(collectionAlum).findOne({email : qEmail, 'selectedDocumentsProfile.name' : qProfileName, 'selectedDocumentsProfile.arrayDoc.documentName' : qDocumentName}, function(err, result) {
-				if (err) {
-					res.status(400).send({"error": "Error inesperado en el servidor" });
-					console.log("ERROR MONGO: " + err);
-				}		
-				else if (result != null)
-				{
-					// update validate and response
-					var query = {email : qEmail, 'selectedDocumentsProfile.name' : qProfileName, 'selectedDocumentsProfile.arrayDoc.documentName' : qDocumentName};
-					var newValues = { $set: {'selectedDocumentsProfile.arrayDoc.$.validate': "OK"} };
-					dbo.collection(collectionAlum).updateOne(query, newValues, function(err, updResult){
-						if (err) {
-							res.status(400).send({"error": "Error inesperado en el servidor" });
-							console.log("ERROR MONGO: " + err);
-						}
-						else if (updResult)
-						{
-							res.status(200).send({"ok":"fichero validado correctamente"});
-						}
-						else
-						{
-							res.status(400).send({"error":"no se ha podido actualizar el campo de validacion en la base de datos"});
-						}				
-						db.close();
-					});	
-				}	
-				else
-				{
-					res.status(400).send({"error":"No se ha encontrado ningun alumno con ese email, perfil y documento"});
-				}		
-				db.close();
-			});		
+			else
+			{
+				var dbo = db.db(mongoDb);			
+				dbo.collection(collectionAlum).findOne({email : qEmail, 'selectedDocumentsProfile.name' : qProfileName, 'selectedDocumentsProfile.arrayDoc.documentName' : qDocumentName}, function(err, result) {
+					if (err) {
+						res.status(400).send({"error": "Error inesperado en el servidor" });
+						console.log("ERROR MONGO: " + err);
+					}		
+					else if (result != null)
+					{
+						// update validate and response
+						var query = {email : qEmail, 'selectedDocumentsProfile.name' : qProfileName, 'selectedDocumentsProfile.arrayDoc.documentName' : qDocumentName};
+						var newValues = { $set: {'selectedDocumentsProfile.arrayDoc.$.validate': "OK"} };
+						dbo.collection(collectionAlum).updateOne(query, newValues, function(err, updResult){
+							if (err) {
+								res.status(400).send({"error": "Error inesperado en el servidor" });
+								console.log("ERROR MONGO: " + err);
+							}
+							else if (updResult)
+							{
+								res.status(200).send({"ok":"fichero validado correctamente"});
+							}
+							else
+							{
+								res.status(400).send({"error":"no se ha podido actualizar el campo de validacion en la base de datos"});
+							}				
+							db.close();
+						});	
+					}	
+					else
+					{
+						res.status(400).send({"error":"No se ha encontrado ningun alumno con ese email, perfil y documento"});
+					}		
+					db.close();
+				});		
+			}			
 		});
 	}
 	else
@@ -956,7 +968,7 @@ app.post('/update/alumn', protectedRoute, checkAdminToken, (req, res) => {
 					{
 						// update alumn and response
 						var query = {email : qUsername};
-						var newValues = { $set: updatedFields };
+						var newValues = { $set: qUpdatedFields };
 						dbo.collection(collectionAlum).updateOne(query, newValues, function(err, updResult){
 							if (err) {
 								res.status(400).send({"error": "Error inesperado en el servidor" });
