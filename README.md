@@ -2,8 +2,9 @@
 <a href="#endpointsCiclos"> 2. Endpoints Ciclos </a><br>
 <a href="#endpointsPerfiles"> 3. Endpoints Perfiles de Documentos </a><br>
 <a href="#endpointsAlumnos"> 4. Endpoints Alumnos </a><br>
-<a href="#endpointsNoImplementedCiclos"> 5. Endpoints NO IMPLEMENTED Ciclos </a><br>
-<a href="#endpointsNoImplementedAlumnos"> 6. Endpoints NO IMPLEMENTED Alumnos </a><br>
+<a href="#endpointsFicheroz"> 5. Endpoints Ficheros </a><br>
+<a href="#endpointsNoImplementedCiclos"> 6. Endpoints NO IMPLEMENTED Ciclos </a><br>
+<a href="#endpointsNoImplementedAlumnos"> 7. Endpoints NO IMPLEMENTED Alumnos </a><br>
 
 
 
@@ -913,8 +914,300 @@
 </td></tbody></table>
 
 
+<!-- /update/alumn -->
+<h2> UPDATE ALUMN</h2>
+  <h4> REQUEST </h4>
+  <table class="wikitable">
+<tbody><tr>
+<th colspan="3">Request : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /update/alumn
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th><tr>
+<td>email
+</td>
+<td>text
+</td>
+<td>Email del alumno que se quiere updatear
+  </td></tr>
+  <tr>
+<td>updatedFields
+</td>
+<td>JSON Object
+</td>
+<td>Un objeto JSON con todos aquellos campos y valores que se quieran actualizar
+  </td></tr>
+</tbody></table>
+<h4> RESPONSE STATUS 200</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /update/alumn
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>ok
+</td>
+<td>text
+</td>
+<td>contiene "Alumno actualizado correctamente"
+  </td></tr></tbody></table>
+<h4> RESPONSE STATUS 400</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /update/alumn
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>error
+</td>
+<td>text
+</td>
+<td>Motivo del error
+</td></tbody></table>
 
 
+
+<!-- FICHEROS -->
+<h2 id="endpointsFicheros"> **FICHEROS** </h2>
+
+<!-- /upload/documentsFile -->
+<h2>Upload Documents File</h2>
+  <h4> REQUEST </h4>
+  <table class="wikitable">
+<tbody><tr>
+<th colspan="3">Request : FORM DATA
+</th></tr>
+<tr>
+<th colspan="3">POST /upload/documentsFile
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th><tr><td>email</td><td>Text</td><td>Email del alumno</td></tr>
+  <tr><td>profileName</td><td>text</td><td>Nombre del perfil</td></tr>
+  <tr><td>documentName</td><td>text</td><td>Nombre del documento</td></tr>
+  <tr><td>file</td><td>archivo</td><td>Fichero que se sube</td></tr></tr>
+</tbody></table>
+<h4> RESPONSE STATUS 200</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /upload/documentsFile
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>ok
+</td>
+<td>text
+</td>
+<td>contiene "Fichero subido correctamente"
+</td></tbody></table>
+<h4> RESPONSE STATUS 400</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /upload/documentsFile
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>error
+</td>
+<td>text
+</td>
+<td>Motivo del error
+</td></tbody></table>
+
+
+
+
+
+<!-- /get/document -->
+<h2>Get Document</h2>
+  <h4> REQUEST </h4>
+  <table class="wikitable">
+<tbody><tr>
+<th colspan="3">Request : POST
+</th></tr>
+<tr>
+<th colspan="3">POST /get/document
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th><tr><td>email</td><td>Text</td><td>Email del alumno</td></tr>
+  <tr><td>profileName</td><td>text</td><td>Nombre del perfil</td></tr>
+  <tr><td>documentName</td><td>text</td><td>Nombre del documento</td></tr>
+  </tr>
+</tbody></table>
+<h4> RESPONSE STATUS 200</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /get/document
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>filePath
+</td>
+<td>text
+</td>
+<td>contiene la ruta del fichero (incluye el nombre y extension)
+  </td></tr>
+  <tr>
+<td>data
+</td>
+<td>text
+</td>
+<td>Fichero en string base64
+  </td></tr></tbody></table>
+<h4> RESPONSE STATUS 400</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /get/document
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>error
+</td>
+<td>text
+</td>
+<td>Motivo del error
+</td></tbody></table>
+
+
+
+
+
+<!-- /update/validateFile -->
+<h2>Update, validate file</h2>
+  <h4> REQUEST </h4>
+  <table class="wikitable">
+<tbody><tr>
+<th colspan="3">Request : POST
+</th></tr>
+<tr>
+<th colspan="3">POST /update/validateFile
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th><tr><td>email</td><td>Text</td><td>Email del alumno</td></tr>
+  <tr><td>profileName</td><td>text</td><td>Nombre del perfil</td></tr>
+  <tr><td>documentName</td><td>text</td><td>Nombre del documento</td></tr>
+  </tr>
+</tbody></table>
+<h4> RESPONSE STATUS 200</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /update/validateFile
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>ok
+</td>
+<td>text
+</td>
+<td>contiene "fichero validado correctamente"
+  </td></tr>
+  </tbody></table>
+<h4> RESPONSE STATUS 400</h4>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="3">Response : JSON
+</th></tr>
+<tr>
+<th colspan="3">POST /update/validateFile
+</th></tr>
+<tr>
+<th>Param
+</th>
+<th>Values
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>error
+</td>
+<td>text
+</td>
+<td>Motivo del error
+</td></tbody></table>
 
 
 
@@ -1076,80 +1369,7 @@
 <!-- NO IMPLEMENTED -- ALUMN -->
 <br><br><br>
 <h1 id="endpointsNoImplementedAlumnos"> NO IMPLEMENTED -- ALUMN</h1>
-<h2> UPDATE </h2>
-  <h4> REQUEST </h4>
-  <table class="wikitable">
-<tbody><tr>
-<th colspan="3">Request : JSON
-</th></tr>
-<tr>
-<th colspan="3">POST /update/alumn
-</th></tr>
-<tr>
-<th>Param
-</th>
-<th>Values
-</th>
-<th>Description
-</th><tr>
-<td>email
-</td>
-<td>text
-</td>
-<td>Email del alumno que se quiere updatear
-  </td></tr>
-  <tr>
-<td>alumn
-</td>
-<td>JSON Object
-</td>
-<td>Un objeto JSON con todos aquellos campos y valores que se quieran actualizar
-  </td></tr>
-</tbody></table>
-<h4> RESPONSE STATUS 200</h4>
-<table class="wikitable">
-<tbody><tr>
-<th colspan="3">Response : JSON
-</th></tr>
-<tr>
-<th colspan="3">POST /update/alumn
-</th></tr>
-<tr>
-<th>Param
-</th>
-<th>Values
-</th>
-<th>Description
-</th></tr>
-<tr>
-<td>updateCount
-</td>
-<td>integer
-</td>
-<td>Numero de updates
-  </td></tr></tbody></table>
-<h4> RESPONSE STATUS 400</h4>
-<table class="wikitable">
-<tbody><tr>
-<th colspan="3">Response : JSON
-</th></tr>
-<tr>
-<th colspan="3">POST /update/alumn
-</th></tr>
-<tr>
-<th>Param
-</th>
-<th>Values
-</th>
-<th>Description
-</th></tr>
-<tr>
-<td>error
-</td>
-<td>text
-</td>
-<td>Motivo del error
-</td></tbody></table>
+
 
 
 <br>
