@@ -936,7 +936,7 @@ app.post('/update/validateFile', protectedRoute, checkAdminToken, (req, res) => 
 app.post('/update/alumn', protectedRoute, checkAdminToken, (req, res) => {
 	var qUsername = req.body.email
 	var qUpdatedFields = req.body.updatedFields
-	console.log(body);
+	console.log(req.body);
 	if (qUsername != undefined && qUpdatedFields != undefined)
 	{
 		MongoClient.connect(mongoUrl, function(err, db) {
