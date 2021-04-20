@@ -2,7 +2,7 @@
 <a href="#endpointsCiclos"> 2. Endpoints Ciclos </a><br>
 <a href="#endpointsPerfiles"> 3. Endpoints Perfiles de Documentos </a><br>
 <a href="#endpointsAlumnos"> 4. Endpoints Alumnos </a><br>
-<a href="#endpointsFicheroz"> 5. Endpoints Ficheros </a><br>
+<a href="#endpointsFicheros"> 5. Endpoints Ficheros </a><br>
 <a href="#endpointsNoImplementedCiclos"> 6. Endpoints NO IMPLEMENTED Ciclos </a><br>
 <a href="#endpointsNoImplementedAlumnos"> 7. Endpoints NO IMPLEMENTED Alumnos </a><br>
 
