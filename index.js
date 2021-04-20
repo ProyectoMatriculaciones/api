@@ -791,12 +791,8 @@ app.post('/upload/documentsFile', protectedRoute, (req, res) => {
 	else
 	{
 		res.status(400).send({"error":"No se ha informado de algun campo obligatorio"});
-	}
-
-	
-
-	
-})
+	}	
+});
 
 function createDirIfNotExists(dir)
 {
@@ -867,7 +863,7 @@ app.post('/get/document', protectedRoute, checkAdminToken, (req, res) => {
 	}
 	
 	
-})
+});
 
 
 
@@ -928,11 +924,69 @@ app.post('/update/validateFile', protectedRoute, checkAdminToken, (req, res) => 
 	{
 		res.status(400).send({"error":"No se ha informado de algun campo obligatorio"});
 	}
-})
+});
 
 
 
 
+
+// ---------------------------------------------------------
+// post /update/alumn
+// ---------------------------------------------------------
+app.post('/update/alumn', protectedRoute, checkAdminToken, (req, res) => {
+	var qUsername = req.body.email
+	var qUpdatedFields = req.body.updatedFields
+	console.log(body);
+	if (qUsername != undefined && qUpdatedFields != undefined)
+	{
+		MongoClient.connect(mongoUrl, function(err, db) {
+			if (err) {
+				res.status(400).send({"error": "Error inesperado en el servidor" });
+				console.log("ERROR MONGO: " + err);
+			}
+			else
+			{
+				var dbo = db.db(mongoDb);			
+				dbo.collection(collectionAlum).findOne({email : qEmail}, function(err, result) {
+					if (err) {
+						res.status(400).send({"error": "Error inesperado en el servidor" });
+						console.log("ERROR MONGO: " + err);
+					}		
+					else if (result != null)
+					{
+						// update validate and response
+						var query = {email : qEmail};
+						var newValues = { $set: updatedFields };
+						dbo.collection(collectionAlum).updateOne(query, newValues, function(err, updResult){
+							if (err) {
+								res.status(400).send({"error": "Error inesperado en el servidor" });
+								console.log("ERROR MONGO: " + err);
+							}
+							else if (updResult)
+							{
+								res.status(200).send({"ok":"alumno actualizado correctamente"});
+							}
+							else
+							{
+								res.status(400).send({"error":"no se ha podido actualizar el alumno"});
+							}				
+							db.close();
+						});	
+					}	
+					else
+					{
+						res.status(400).send({"error":"No se ha encontrado ningun alumno con ese email, perfil y documento"});
+					}		
+					db.close();
+				});			
+			}				
+		});
+	}
+	else
+	{
+		res.status(400).send({"error":"No se ha informado de algun campo obligatorio"});	
+	}
+});
 
 // ---------------------------------------------------------
 // listen port
